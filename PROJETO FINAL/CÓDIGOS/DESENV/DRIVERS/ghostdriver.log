@@ -1,0 +1,7 @@
+firefoxdriver.exe: error: Found argument '--cookies-file' which wasn't expected, or isn't valid in this context
+
+USAGE:
+    firefoxdriver.exe [FLAGS] [OPTIONS]
+
+For more information try --help
+
