@@ -1,0 +1,159 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[portuguese]{babel} % Permite escrever em português
+\usepackage[utf8]{inputenc} % Permite digitar acentuações diretamente
+\usepackage{amsmath} % Permite diagramação matemática avançada
+\usepackage{parskip} % Remove identação de parágrafos e adiciona espaço entre eles
+\usepackage[usenames,dvipsnames,table]{xcolor} % Permite usar cores
+\usepackage{fancyvrb} % Desenha conteúdos verbatim com caixas ao redor
+\usepackage{graphicx}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref} % Permite adicionar url's clicáveis
+
+\newcommand{\professora}{Profa Dra. Mariana Cúri}
+
+\title{Estatística - Relatório Final}
+\author{Guilherme Lourenço}
+\date{\today}
+
+
+
+\begin{document}
+	
+	\maketitle\
+	
+	\tableofcontents
+	
+	\section{Introdução}
+    Este documento visa apresentar os resultados obtidos na execução da Avaliação Final de Estatística.
+    
+    A Avaliação Final consista na execução de 3 exercícios para demonstração do compreendimento teórico e prático da matéria.
+    
+    Os exercícios tiveram sua resolução com base nas aulas da \professora.
+    
+    \section{Exercícios}
+    Para a execução dos exercícios o arquivo  \textbf{\textit{"Brain"}} foi disponiblizado, o arquivo possui as informações descritas na Tabela \ref{tab:brain}.
+        
+    \begin{table}[]
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|c|l|c|}
+    \hline
+    \textbf{ATRIBUTO}       & \multicolumn{1}{c|}{\textbf{DESCRIÇÃO}} & \textbf{EXEMPLO}         \\ \hline
+    \textbf{Qtd. Registros} & 237 adultos                             & -                        \\ \hline
+    \textbf{homem}          & indicação do gênero analisado           & (1 - Homem / 0 - Mulher) \\ \hline
+    \textbf{acima45} & indicação da idade analisada & (1 - Acima de 45 anos / 0 - Abaixo de 45 anos) \\ \hline
+    \textbf{peso}           & descritivo do peso em gramas (g)        & -                        \\ \hline
+    \textbf{tamanho}        & descritivo do tamanho em $cm^3$         & -                        \\ \hline
+    \end{tabular}%
+    }
+    \caption{Arquivo: Brain}
+    \label{tab:brain}
+    \end{table}
+    \break
+        
+    A partir desta base foram elaborados os exercícios que possuem as suas resoluções descritas a seguir.\\
+    
+    \subsection{Exercício 1} \label{exercicio_1}
+    \textbf{\textit{Há diferença no peso cerebral entre os sexos? E entre os grupos etários?}}
+    
+    Para a resolução do exercício 1 foram elaboradas as seguintes Hipóteses:
+    
+    $H_{0}$: \textit{NÃO HÁ} diferença entre os pesos cerebrais entre os sexos.\\
+    $H_{a}$: \textit{HÁ} diferença entre os pesos cerebrais entre os sexos.\\
+    
+    Além da definição das hipóteses, definimos como alpha ($\alpha$) o valor de  \textbf{0.05}, dessa forma considero um nível de 95\% de confiança
+    
+    \subsubsection{Métodos utilizados}
+    De acordo com as hipóteses elaboradas se fez necessário a avaliação de alguns suposições sobre os dados, a saber:
+    
+    \begin{itemize}
+        \item As amostras devem possuir distribuição normal;
+        \item As amostras devem possuir a mesma variância;
+        \item As amostras devem ser independentes.
+    \end{itemize}
+    
+    \subsubsection{Resultado Final}
+    Para a avaliação dessas suposições utilizamos os seguintes métodos que tiveram os resultados indicados na Tabela \ref{tab:exe1}.\\
+    
+    \begin{itemize}
+        \item Distribuição Normal: QQ-Plot e Teste de Shapiro-Wilk;
+        \item Variância: Teste de Levene;
+        \item Independência: Correlação de Pearson.
+    \end{itemize}
+    \break
+    
+    \begin{table}[]
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|c|l|l|}
+    \hline
+    \textbf{Método}       & \multicolumn{1}{c|}{\textbf{Resultado - Sexo}} &\multicolumn{1}{c|}{\textbf{Resultado - Faixa Etária}}         \\ \hline
+    \textbf{Shapiro-Wilk} & Homem: \emph{p\_valor} de $0.029$ | Mulher: \emph{p\_valor} de $0.992$ & Acima 45: \emph{p\_valor} de $0.665$ | Abaixo 45: \emph{p\_valor} de $0.422$\\ \hline
+    \textbf{Levene} & \emph{p\_valor} de $0.767$ & \emph{p\_valor} de $0.692$\\ \hline
+    \textbf{Pearson} & \emph{p\_valor} de $0.349$ & \emph{p\_valor} de $0.388$\\ \hline
+    \end{tabular}%
+    }
+    \caption{Avaliação das Suposições}
+    \label{tab:exe1}
+    \end{table}
+    \break
+    
+    Com os \textit{p\_valores} descobertos, assumimos que \textbf{sim} as amostras possuem Distribuição Normal (mesmo que para a Amostra de Homens não seja considerada por causa do $\alpha$ definido), possuem a mesma Variância e são Independentes.
+    
+    A partir da avaliação das suposições descritas acima, iniciamos a avaliação das Hipóteses definidas, sendo elas:\\
+    
+    $H_{0}$: \textit{NÃO HÁ} diferença entre os pesos cerebrais entre os sexos.\\
+    $H_{a}$: \textit{HÁ} diferença entre os pesos cerebrais entre os sexos.\\
+	
+	Para essa avaliação, utilizamos o Teste \textit{T-Student} que retorna além do valor de sua estatística, nos informa o \textit{p\_valor} com a probabilidade da nossa $H_{0}$.
+	
+	A execução do código foi feita em \textit{Python} e obteve o \textit{p\_valor} de \underline{\textbf{$0.0$}} para as Amostras relacionadas a Sexo e \underline{\textbf{$0.00896$}} para as Amostras relacionadas a Faixa etária.
+	
+	\textbf{Com a obtenção dos p\_valores de \emph{$0.0$ para Sexo} e \emph{$0.00896$ para as Faixas etárias} podemos então \emph{rejeitar $H_{0}$} e assim aceitar \emph{$H_{a}$}, dessa forma podemos afirmar estatísticamente que \emph{HÁ} diferença entre os pesos cerebrais entre os sexos e também entre as Faixas etárias.}
+	
+	\subsection{Exercício 2} \label{exercicio_2}
+	\textbf{\textit{O tamanho da cabeça é preditor do peso cerebral e, neste caso, há diferença nessa relação entre os sexos e entre os grupos etários?}}
+	
+	\subsubsection{Métodos Utilizados}
+	Para a avaliação do Preditor foi utilizado a fórmula de OLS (\emph{Ordinary Least Square} / Método dos Mínimos Quadrado), a partir dessa regressão avaliamos os resultados encontrados.
+	
+	\subsubsection{Resultado Final}
+	\textbf{Após a aplicação das Regressões com diversas validações entre as variáveis, chegamos no resultado de que \emph{sim} o tamanho da cabeça, sexo e grupo etário são preditores do peso cerebral.}
+	
+	\subsection{Exercício 3} \label{exercicio_3}
+	\textbf{\textit{Estime o peso médio do cérebro de homens e de mulheres (pontual e intervalar).}}
+	
+	
+    \subsubsection{Métodos Utilizados}
+    A partir da resolução do Exercício \ref{exercicio_1}, vimos que a variável \emph{peso} possui distribuição normal entre os sexos.\\ \\
+    Sendo assim para a estimação dos parâmetros utilizamos a fórmula de \emph{Máxima Verossimilhança} descrita abaixo:
+    
+    \begin{equation*}
+     l(\theta) = \sum_{i=1}^{n}log(f(x_i|\theta))
+    \end{equation*}
+    
+    E a partir dessa distribuição procuramos o seu maior estimado e assumimos como sendo o parâmetro procurado.\\
+    
+    Para a estimação intervalar verificamos o Intervalo de Confiança para a Normal através da aplicação da função existente no Python, a saber \href{https://www.statsmodels.org/dev/generated/statsmodels.stats.weightstats.DescrStatsW.html}{DescrStatsW}.
+    \break
+    
+    \subsubsection{Resultado Final}
+    Com a aplicação dos métodos descritos acima chegamos nos seguintes resultados:
+    \break\\      
+    
+    \begin{table}[]
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|c|l|l|}
+    \hline
+    \textbf{Sexo} & \multicolumn{1}{c|}{\textbf{Estimador Pontual}} &\multicolumn{1}{c|}{\textbf{Estimador Intervalar}}         \\ \hline
+    \textbf{Homem} & Média: \emph{$1331.57$} & Intervalo: entre \emph{$1313.24$} e $1350.47$\\ \hline
+    \textbf{Mulher} & Média: \emph{$1219.20$} & Intervalo: entre \emph{$1198.85$} e $1239.43$\\ \hline
+    \end{tabular}%
+    }
+    \caption{Resultados}
+    \label{tab:exe3}
+    \end{table}
+    \break    
+    
+    
+	
+	
+	
+\end{document}
