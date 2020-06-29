@@ -1,0 +1,805 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>JabRef references</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript">
+<!--
+// QuickSearch script for JabRef HTML export 
+// Version: 3.0
+//
+// Copyright (c) 2006-2011, Mark Schenk
+//
+// This software is distributed under a Creative Commons Attribution 3.0 License
+// http://creativecommons.org/licenses/by/3.0/
+//
+// Features:
+// - intuitive find-as-you-type searching
+//    ~ case insensitive
+//    ~ ignore diacritics (optional)
+//
+// - search with/without Regular Expressions
+// - match BibTeX key
+//
+
+// Search settings
+var searchAbstract = true;	// search in abstract
+var searchComment = true;	// search in comment
+
+var noSquiggles = true; 	// ignore diacritics when searching
+var searchRegExp = false; 	// enable RegExp searches
+
+
+if (window.addEventListener) {
+	window.addEventListener("load",initSearch,false); }
+else if (window.attachEvent) {
+	window.attachEvent("onload", initSearch); }
+
+function initSearch() {
+	// check for quick search table and searchfield
+	if (!document.getElementById('qs_table')||!document.getElementById('quicksearch')) { return; }
+
+	// load all the rows and sort into arrays
+	loadTableData();
+	
+	//find the query field
+	qsfield = document.getElementById('qs_field');
+
+	// previous search term; used for speed optimisation
+	prevSearch = '';
+
+	//find statistics location
+	stats = document.getElementById('stat');
+	setStatistics(-1);
+	
+	// set up preferences
+	initPreferences();
+
+	// shows the searchfield
+	document.getElementById('quicksearch').style.display = 'block';
+	document.getElementById('qs_field').onkeyup = quickSearch;
+}
+
+function loadTableData() {
+	// find table and appropriate rows
+	searchTable = document.getElementById('qs_table');
+	var allRows = searchTable.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+	// split all rows into entryRows and infoRows (e.g. abstract, comment, bibtex)
+	entryRows = new Array(); infoRows = new Array(); absRows = new Array(); revRows = new Array();
+
+	// get data from each row
+	entryRowsData = new Array(); absRowsData = new Array(); revRowsData = new Array(); 
+	
+	BibTeXKeys = new Array();
+	
+	for (var i=0, k=0, j=0; i<allRows.length;i++) {
+		if (allRows[i].className.match(/entry/)) {
+			entryRows[j] = allRows[i];
+			entryRowsData[j] = stripDiacritics(getTextContent(allRows[i]));
+			allRows[i].id ? BibTeXKeys[j] = allRows[i].id : allRows[i].id = 'autokey_'+j;
+			j ++;
+		} else {
+			infoRows[k++] = allRows[i];
+			// check for abstract/comment
+			if (allRows[i].className.match(/abstract/)) {
+				absRows.push(allRows[i]);
+				absRowsData[j-1] = stripDiacritics(getTextContent(allRows[i]));
+			} else if (allRows[i].className.match(/comment/)) {
+				revRows.push(allRows[i]);
+				revRowsData[j-1] = stripDiacritics(getTextContent(allRows[i]));
+			}
+		}
+	}
+	//number of entries and rows
+	numEntries = entryRows.length;
+	numInfo = infoRows.length;
+	numAbs = absRows.length;
+	numRev = revRows.length;
+}
+
+function quickSearch(){
+	
+	tInput = qsfield;
+
+	if (tInput.value.length == 0) {
+		showAll();
+		setStatistics(-1);
+		qsfield.className = '';
+		return;
+	} else {
+		t = stripDiacritics(tInput.value);
+
+		if(!searchRegExp) { t = escapeRegExp(t); }
+			
+		// only search for valid RegExp
+		try {
+			textRegExp = new RegExp(t,"i");
+			closeAllInfo();
+			qsfield.className = '';
+		}
+			catch(err) {
+			prevSearch = tInput.value;
+			qsfield.className = 'invalidsearch';
+			return;
+		}
+	}
+	
+	// count number of hits
+	var hits = 0;
+
+	// start looping through all entry rows
+	for (var i = 0; cRow = entryRows[i]; i++){
+
+		// only show search the cells if it isn't already hidden OR if the search term is getting shorter, then search all
+		if(cRow.className.indexOf('noshow')==-1 || tInput.value.length <= prevSearch.length){
+			var found = false; 
+
+			if (entryRowsData[i].search(textRegExp) != -1 || BibTeXKeys[i].search(textRegExp) != -1){ 
+				found = true;
+			} else {
+				if(searchAbstract && absRowsData[i]!=undefined) {
+					if (absRowsData[i].search(textRegExp) != -1){ found=true; } 
+				}
+				if(searchComment && revRowsData[i]!=undefined) {
+					if (revRowsData[i].search(textRegExp) != -1){ found=true; } 
+				}
+			}
+			
+			if (found){
+				cRow.className = 'entry show';
+				hits++;
+			} else {
+				cRow.className = 'entry noshow';
+			}
+		}
+	}
+
+	// update statistics
+	setStatistics(hits)
+	
+	// set previous search value
+	prevSearch = tInput.value;
+}
+
+
+// Strip Diacritics from text
+// http://stackoverflow.com/questions/990904/javascript-remove-accents-in-strings
+
+// String containing replacement characters for stripping accents 
+var stripstring = 
+    'AAAAAAACEEEEIIII'+
+    'DNOOOOO.OUUUUY..'+
+    'aaaaaaaceeeeiiii'+
+    'dnooooo.ouuuuy.y'+
+    'AaAaAaCcCcCcCcDd'+
+    'DdEeEeEeEeEeGgGg'+
+    'GgGgHhHhIiIiIiIi'+
+    'IiIiJjKkkLlLlLlL'+
+    'lJlNnNnNnnNnOoOo'+
+    'OoOoRrRrRrSsSsSs'+
+    'SsTtTtTtUuUuUuUu'+
+    'UuUuWwYyYZzZzZz.';
+
+function stripDiacritics(str){
+
+    if(noSquiggles==false){
+        return str;
+    }
+
+    var answer='';
+    for(var i=0;i<str.length;i++){
+        var ch=str[i];
+        var chindex=ch.charCodeAt(0)-192;   // Index of character code in the strip string
+        if(chindex>=0 && chindex<stripstring.length){
+            // Character is within our table, so we can strip the accent...
+            var outch=stripstring.charAt(chindex);
+            // ...unless it was shown as a '.'
+            if(outch!='.')ch=outch;
+        }
+        answer+=ch;
+    }
+    return answer;
+}
+
+// http://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
+// NOTE: must escape every \ in the export code because of the JabRef Export...
+function escapeRegExp(str) {
+  return str.replace(/[-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+}
+
+function toggleInfo(articleid,info) {
+
+	var entry = document.getElementById(articleid);
+	var abs = document.getElementById('abs_'+articleid);
+	var rev = document.getElementById('rev_'+articleid);
+	var bib = document.getElementById('bib_'+articleid);
+	
+	if (abs && info == 'abstract') {
+		abs.className.indexOf('noshow') == -1?abs.className = 'abstract noshow':abs.className = 'abstract show';
+	} else if (rev && info == 'comment') {
+		rev.className.indexOf('noshow') == -1?rev.className = 'comment noshow':rev.className = 'comment show';
+	} else if (bib && info == 'bibtex') {
+		bib.className.indexOf('noshow') == -1?bib.className = 'bibtex noshow':bib.className = 'bibtex show';
+	} else { 
+		return;
+	}
+
+	// check if one or the other is available
+	var revshow; var absshow; var bibshow;
+	(abs && abs.className.indexOf('noshow') == -1)? absshow = true: absshow = false;
+	(rev && rev.className.indexOf('noshow') == -1)? revshow = true: revshow = false;	
+	(bib && bib.className.indexOf('noshow') == -1)? bibshow = true: bibshow = false;
+	
+	// highlight original entry
+	if(entry) {
+		if (revshow || absshow || bibshow) {
+		entry.className = 'entry highlight show';
+		} else {
+		entry.className = 'entry show';
+		}
+	}
+	
+	// When there's a combination of abstract/comment/bibtex showing, need to add class for correct styling
+	if(absshow) {
+		(revshow||bibshow)?abs.className = 'abstract nextshow':abs.className = 'abstract';
+	} 
+	if (revshow) {
+		bibshow?rev.className = 'comment nextshow': rev.className = 'comment';
+	}	
+	
+}
+
+function setStatistics (hits) {
+	if(hits < 0) { hits=numEntries; }
+	if(stats) { stats.firstChild.data = hits + '/' + numEntries}
+}
+
+function getTextContent(node) {
+	// Function written by Arve Bersvendsen
+	// http://www.virtuelvis.com
+	
+	if (node.nodeType == 3) {
+	return node.nodeValue;
+	} // text node
+	if (node.nodeType == 1 && node.className != "infolinks") { // element node
+	var text = [];
+	for (var chld = node.firstChild;chld;chld=chld.nextSibling) {
+		text.push(getTextContent(chld));
+	}
+	return text.join("");
+	} return ""; // some other node, won't contain text nodes.
+}
+
+function showAll(){
+	closeAllInfo();
+	for (var i = 0; i < numEntries; i++){ entryRows[i].className = 'entry show'; }
+}
+
+function closeAllInfo(){
+	for (var i=0; i < numInfo; i++){
+		if (infoRows[i].className.indexOf('noshow') ==-1) {
+			infoRows[i].className = infoRows[i].className + ' noshow';
+		}
+	}
+}
+
+function clearQS() {
+	qsfield.value = '';
+	showAll();
+}
+
+function redoQS(){
+	showAll();
+	quickSearch(qsfield);
+}
+
+function updateSetting(obj){
+	var option = obj.id;
+	var checked = obj.value;
+
+	switch(option)
+	 {
+	 case "opt_searchAbs":
+	   searchAbstract=!searchAbstract;
+	   redoQS();
+	   break;
+	 case "opt_searchRev":
+	   searchComment=!searchComment;
+	   redoQS();
+	   break;
+	 case "opt_useRegExp":
+	   searchRegExp=!searchRegExp;
+	   redoQS();
+	   break;
+	 case "opt_noAccents":
+	   noSquiggles=!noSquiggles;
+	   loadTableData();
+	   redoQS();
+	   break;
+	 }
+}
+
+function initPreferences(){
+	if(searchAbstract){document.getElementById("opt_searchAbs").checked = true;}
+	if(searchComment){document.getElementById("opt_searchRev").checked = true;}
+	if(noSquiggles){document.getElementById("opt_noAccents").checked = true;}
+	if(searchRegExp){document.getElementById("opt_useRegExp").checked = true;}
+	
+	if(numAbs==0) {document.getElementById("opt_searchAbs").parentNode.style.display = 'none';}
+	if(numRev==0) {document.getElementById("opt_searchRev").parentNode.style.display = 'none';}
+}
+
+function toggleSettings(){
+	var togglebutton = document.getElementById('showsettings');
+	var settings = document.getElementById('settings');
+	
+	if(settings.className == "hidden"){
+		settings.className = "show";
+		togglebutton.innerText = "close settings";
+		togglebutton.textContent = "close settings";
+	}else{
+		settings.className = "hidden";
+		togglebutton.innerText = "settings...";		
+		togglebutton.textContent = "settings...";
+	}
+}
+
+-->
+</script>
+<style type="text/css">
+body { background-color: white; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.2; padding: 1em; color: #2E2E2E; margin: auto 2em; }
+
+form#quicksearch { width: auto; border-style: solid; border-color: gray; border-width: 1px 0px; padding: 0.7em 0.5em; display:none; position:relative; }
+span#searchstat {padding-left: 1em;}
+
+div#settings { margin-top:0.7em; /* border-bottom: 1px transparent solid; background-color: #efefef; border: 1px grey solid; */ }
+div#settings ul {margin: 0; padding: 0; }
+div#settings li {margin: 0; padding: 0 1em 0 0; display: inline; list-style: none; }
+div#settings li + li { border-left: 2px #efefef solid; padding-left: 0.5em;}
+div#settings input { margin-bottom: 0px;}
+
+div#settings.hidden {display:none;}
+
+#showsettings { border: 1px grey solid; padding: 0 0.5em; float:right; line-height: 1.6em; text-align: right; }
+#showsettings:hover { cursor: pointer; }
+
+.invalidsearch { background-color: red; }
+input[type="button"] { background-color: #efefef; border: 1px #2E2E2E solid;}
+
+table { width: 100%; empty-cells: show; border-spacing: 0em 0.2em; margin: 1em 0em; border-style: none; }
+th, td { border: 1px gray solid; border-width: 1px 1px; padding: 0.5em; vertical-align: top; text-align: left; }
+th { background-color: #efefef; }
+td + td, th + th { border-left: none; }
+
+td a { color: navy; text-decoration: none; }
+td a:hover  { text-decoration: underline; }
+
+tr.noshow { display: none;}
+tr.highlight td { background-color: #EFEFEF; border-top: 2px #2E2E2E solid; font-weight: bold; }
+tr.abstract td, tr.comment td, tr.bibtex td { background-color: #EFEFEF; text-align: justify; border-bottom: 2px #2E2E2E solid; }
+tr.nextshow td { border-bottom: 1px gray solid; }
+
+tr.bibtex pre { width: 100%; overflow: auto; white-space: pre-wrap;}
+p.infolinks { margin: 0.3em 0em 0em 0em; padding: 0px; }
+
+@media print {
+	p.infolinks, #qs_settings, #quicksearch, t.bibtex { display: none !important; }
+	tr { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<form action="" id="quicksearch">
+<input type="text" id="qs_field" autocomplete="off" placeholder="Type to search..." /> <input type="button" onclick="clearQS()" value="clear" />
+<span id="searchstat">Matching entries: <span id="stat">0</span></span>
+<div id="showsettings" onclick="toggleSettings()">settings...</div>
+<div id="settings" class="hidden">
+<ul>
+<li><input type="checkbox" class="search_setting" id="opt_searchAbs" onchange="updateSetting(this)"><label for="opt_searchAbs"> include abstract</label></li>
+<li><input type="checkbox" class="search_setting" id="opt_searchRev" onchange="updateSetting(this)"><label for="opt_searchRev"> include comment</label></li>
+<li><input type="checkbox" class="search_setting" id="opt_useRegExp" onchange="updateSetting(this)"><label for="opt_useRegExp"> use RegExp</label></li>
+<li><input type="checkbox" class="search_setting" id="opt_noAccents" onchange="updateSetting(this)"><label for="opt_noAccents"> ignore accents</label></li>
+</ul>
+</div>
+</form>
+<table id="qs_table" border="1">
+<thead><tr><th width="20%">Author</th><th width="30%">Title</th><th width="5%">Year</th><th width="30%">Journal/Proceedings</th><th width="10%">Reftype</th><th width="5%">DOI/URL</th></tr></thead>
+<tbody><tr id="Aguilar_Torres_2012" class="entry">
+	<td>Aguilar-Torres, G., S&aacute;nchez-P&eacute;rez, G., Toscano-Medina, K. and P&eacute;rez-Meana, H.</td>
+	<td>Fingerprint Recognition Using Local Features and Hu Moments <p class="infolinks">[<a href="javascript:toggleInfo('Aguilar_Torres_2012','abstract')">Abstract</a>] [<a href="javascript:toggleInfo('Aguilar_Torres_2012','bibtex')">BibTeX</a>]</p></td>
+	<td>2012</td>
+	<td>Journal of Applied Research and Technology<br/>Vol. 10(5)Appl. Math. Comput. Eng. - Am. Conf. Appl. Math. Am. 5th WSEAS Int. Conf. Comput. Eng. Appl. CEA'11, pp. 123-128&nbsp;</td>
+	<td>article</td>
+	<td><a href="https://doi.org/10.22201/icat.16656423.2012.10.5.366">DOI</a> &nbsp;</td>
+</tr>
+<tr id="abs_Aguilar_Torres_2012" class="abstract noshow">
+	<td colspan="6"><b>Abstract</b>: In this paper a novel way to detect explicit content images is proposed using the YCbCr space color, moreover the color pixels percentage that are within the image is calculated which are susceptible to be a tone skin. The main goal to use this method is to apply to forensic analysis or pornographic images detection on storage devices such as hard disk, USB memories, etc. The results obtained using the proposed method are compared with Paraben's Porn Detection Stick software which is one of the most commercial devices used for detecting pornographic images. The proposed algorithm achieved identify up to 88.8&#37; of the explicit content images, and 5&#37; of false positives, the Paraben's Porn Detection Stick software achieved 89.7&#37; of effectiveness for the same set of images but with a 6.8&#37; of false positives. In both cases were used a set of 1000 images, 550 natural images, and 450 with highly explicit content. Finally the proposed algorithm effectiveness shows that the methodology applied to explicit image detection was successfully proved vs Paraben's Porn Detection Stick software.</td>
+</tr>
+<tr id="bib_Aguilar_Torres_2012" class="bibtex noshow">
+<td colspan="6"><b>BibTeX</b>:
+<pre>
+@article{Aguilar_Torres_2012,
+  author = {G. Aguilar-Torres and G. S&aacute;nchez-P&eacute;rez and K. Toscano-Medina and H. P&eacute;rez-Meana},
+  title = {Fingerprint Recognition Using Local Features and Hu Moments},
+  booktitle = {Appl. Math. Comput. Eng. - Am. Conf. Appl. Math. Am. 5th WSEAS Int. Conf. Comput. Eng. Appl. CEA'11},
+  journal = {Journal of Applied Research and Technology},
+  publisher = {Universidad Nacional Autonoma de Mexico},
+  year = {2012},
+  volume = {10},
+  number = {5},
+  pages = {123--128},
+  doi = {https://doi.org/10.22201/icat.16656423.2012.10.5.366}
+}
+</pre></td>
+</tr>
+<tr id="Botelho" class="entry">
+	<td>Botelho, G.M.</td>
+	<td>Segmenta&ccedil;&atilde;o de imagens baseada em redes complexas e superpixels: uma aplica&ccedil;&atilde;o ao censo de aves <p class="infolinks">[<a href="javascript:toggleInfo('Botelho','abstract')">Abstract</a>] [<a href="javascript:toggleInfo('Botelho','bibtex')">BibTeX</a>]</p></td>
+	<td>2014</td>
+	<td>, pp. 104<i>School</i>: Instituto de Ci&ecirc;ncias Matem&aacute;ticas e de Computa&ccedil;&atilde;o&nbsp;</td>
+	<td>phdthesis</td>
+	<td><a href="https://doi.org/10.11606/t.55.2014.tde-16032015-113613">DOI</a> <a href="https://www.teses.usp.br/teses/disponiveis/55/55134/tde-16032015-113613/pt-br.php">URL</a>&nbsp;</td>
+</tr>
+<tr id="abs_Botelho" class="abstract noshow">
+	<td colspan="6"><b>Abstract</b>: Uma das etapas mais importantes da an&aacute;lise de imagens e, que conta com uma enorme quantidade de aplica&ccedil;&otilde;es, &eacute; a segmenta&ccedil;&atilde;o. No entanto, uma boa parte das t&eacute;cnicas tradicionais apresenta alto custo computacional, dificultando sua aplica&ccedil;&atilde;o em imagens de alta resolu&ccedil;&atilde;o como, por exemplo, as imagens de ninhais de aves do Pantanal que tamb&eacute;m ser&atilde;o analisadas neste trabalho. Diante disso, &eacute; proposta uma nova abordagem de segmenta&ccedil;&atilde;o que combina algoritmos de detec&ccedil;&atilde;o de comunidades, pertencentes &agrave; teoria das redes complexas, com t&eacute;cnicas de extra&ccedil;&atilde;o de superpixels. Tal abordagem &eacute; capaz de segmentar imagens de alta resolu&ccedil;&atilde;o mantendo o compromisso entre acur&aacute;cia e tempo de processamento. Al&eacute;m disso, como as imagens de ninhais analisadas apresentam caracter&iacute;sticas peculiares que podem ser mais bem tratadas por t&eacute;cnicas de segmenta&ccedil;&atilde;o por textura, a t&eacute;cnica baseada em Markov Random Fields (MRF) &eacute; proposta, como um complemento &agrave; abordagem de segmenta&ccedil;&atilde;o inicial, para realizar a identifica&ccedil;&atilde;o final das aves. Por fim, devido &agrave; import&acirc;ncia de avaliar quantitativamente a qualidade das segmenta&ccedil;&otilde;es obtidas, um nova m&eacute;trica de avalia&ccedil;&atilde;o baseada em ground-truth foi desenvolvida, sendo de grande import&acirc;ncia para a &aacute;rea. Este trabalho contribuiu para o avan&ccedil;o do estado da arte das t&eacute;cnicas de segmenta&ccedil;&atilde;o de imagens de alta resolu&ccedil;&atilde;o, aprimorando e desenvolvendo m&eacute;todos baseados na combina&ccedil;&atilde;o de redes complexas com superpixels, os quais alcan&ccedil;aram resultados satisfat&oacute;rios com baixo tempo de processamento. Al&eacute;m disso, uma importante contribui&ccedil;&atilde;o referente ao censo demogr&aacute;fico de aves por meio da an&aacute;lise de imagens a&eacute;reas de ninhais foi viabilizada por meio da aplica&ccedil;&atilde;o da t&eacute;cnica de segmenta&ccedil;&atilde;o MRF.</td>
+</tr>
+<tr id="bib_Botelho" class="bibtex noshow">
+<td colspan="6"><b>BibTeX</b>:
+<pre>
+@phdthesis{Botelho,
+  author = {Glenda Michele Botelho},
+  title = {Segmenta&ccedil;&atilde;o de imagens baseada em redes complexas e superpixels: uma aplica&ccedil;&atilde;o ao censo de aves},
+  publisher = {Universidade de Sao Paulo, Agencia USP de Gestao da Informacao Academica (AGUIA)},
+  school = {Instituto de Ci&ecirc;ncias Matem&aacute;ticas e de Computa&ccedil;&atilde;o},
+  year = {2014},
+  pages = {104},
+  url = {https://www.teses.usp.br/teses/disponiveis/55/55134/tde-16032015-113613/pt-br.php},
+  doi = {https://doi.org/10.11606/t.55.2014.tde-16032015-113613}
+}
+</pre></td>
+</tr>
+<tr id="de_Freitas_2019" class="entry">
+	<td>de Freitas, P.V.A., dos Santos, G.N.P., Busson, A.J.G., Guedes, &Aacute;.L.V. and Colcher, S.</td>
+	<td>A baseline for NSFW video detection in e-learning environments <p class="infolinks">[<a href="javascript:toggleInfo('de_Freitas_2019','abstract')">Abstract</a>] [<a href="javascript:toggleInfo('de_Freitas_2019','bibtex')">BibTeX</a>]</p></td>
+	<td>2019</td>
+	<td>Proceedings of the 25th Brazillian Symposium on Multimedia and the Web - WebMedia &#39;19, pp. 357-360&nbsp;</td>
+	<td>inproceedings</td>
+	<td><a href="https://doi.org/10.1145/3323503.3360625">DOI</a> &nbsp;</td>
+</tr>
+<tr id="abs_de_Freitas_2019" class="abstract noshow">
+	<td colspan="6"><b>Abstract</b>: The broad use of video capture and services for its storage and transmission has enabled the production of a massive volume of video data. This usage presents a challenge in controlling the type of content that is loaded for these video storage services. The Internet slang NSFW (Not Safe For Work) is often used as a warning for media that contain inappropriate content, such as nudity, intense sexuality, violence, gore or other potentially disturbing subject matter. Convolutional Neural Network (CNNs) architectures, or ConvNets, have become the primary method used for audio-visual pattern recognition. In this work, we intend to: (1) create a CNN based model for video features extraction; And (2), validate these video features with baselines models for NSFW video classification using a multi-modal approach. In initial experimentation, our best model achieves a recall of 96.6&#37; for NSFW class.</td>
+</tr>
+<tr id="bib_de_Freitas_2019" class="bibtex noshow">
+<td colspan="6"><b>BibTeX</b>:
+<pre>
+@inproceedings{de_Freitas_2019,
+  author = {Pedro V. A. de Freitas and Gabriel N. P. dos Santos and Antonio J. G. Busson and &Aacute;lan L. V. Guedes and S&eacute;rgio Colcher},
+  title = {A baseline for NSFW video detection in e-learning environments},
+  booktitle = {Proceedings of the 25th Brazillian Symposium on Multimedia and the Web - WebMedia &#39;19},
+  publisher = {ACM Press},
+  year = {2019},
+  pages = {357--360},
+  doi = {https://doi.org/10.1145/3323503.3360625}
+}
+</pre></td>
+</tr>
+<tr id="filho1999processamento" class="entry">
+	<td>Filho, O.</td>
+	<td>Processamento digital de imagens <p class="infolinks">[<a href="javascript:toggleInfo('filho1999processamento','bibtex')">BibTeX</a>]</p></td>
+	<td>1999</td>
+	<td>, pp. 331&nbsp;</td>
+	<td>book</td>
+	<td><a href="http://dainf.ct.utfpr.edu.br/{~}hvieir/download/pdi99.pdf">URL</a>&nbsp;</td>
+</tr>
+<tr id="bib_filho1999processamento" class="bibtex noshow">
+<td colspan="6"><b>BibTeX</b>:
+<pre>
+@book{filho1999processamento,
+  author = {Filho, Ogê},
+  title = {Processamento digital de imagens},
+  publisher = {BRASPORT},
+  year = {1999},
+  pages = {331},
+  url = {http://dainf.ct.utfpr.edu.br/&nbsp;hvieir/download/pdi99.pdf}
+}
+</pre></td>
+</tr>
+<tr id="Hsu2017" class="entry">
+	<td>Hsu, S.-C., Huang, C.-L. and Chuang, C.-H.</td>
+	<td>Image classification using naive bayes classifier with pairwise local observations <p class="infolinks">[<a href="javascript:toggleInfo('Hsu2017','abstract')">Abstract</a>] [<a href="javascript:toggleInfo('Hsu2017','bibtex')">BibTeX</a>]</p></td>
+	<td>2017</td>
+	<td>J. Inf. Sci. Eng.<br/>Vol. 33(5), pp. 1177-1193&nbsp;</td>
+	<td>article</td>
+	<td><a href="https://doi.org/10.6688/JISE.2017.33.5.5">DOI</a> &nbsp;</td>
+</tr>
+<tr id="abs_Hsu2017" class="abstract noshow">
+	<td colspan="6"><b>Abstract</b>: We propose a pairwise local observation-based Naive Bayes (NBPLO) classifier for image classification. First, we find the salient regions (SRs) and the Keypoints (KPs) as the local observations. Second, we describe the discriminative pairwise local observations using Bag-of-features (BoF) histogram. Third, we train the object class models by using random forest to develop the NBPLO classifier for image classification. The two major contributions in this paper are multiple pairwise local observations and regression object class model training for NBPLO classifier. In the experiments, we test our method using Scene-15 and Caltech-101 database and compare the results with the other methods.</td>
+</tr>
+<tr id="bib_Hsu2017" class="bibtex noshow">
+<td colspan="6"><b>BibTeX</b>:
+<pre>
+@article{Hsu2017,
+  author = {Shih-Chung Hsu and Chung-Lin Huang and Cheng-Hung Chuang},
+  title = {Image classification using naive bayes classifier with pairwise local observations},
+  journal = {J. Inf. Sci. Eng.},
+  publisher = {Institute of Information Science},
+  year = {2017},
+  volume = {33},
+  number = {5},
+  pages = {1177--1193},
+  doi = {https://doi.org/10.6688/JISE.2017.33.5.5}
+}
+</pre></td>
+</tr>
+<tr id="Linares" class="entry">
+	<td>Linares, O.A.C.</td>
+	<td>Segmenta&ccedil;&atilde;o de imagens de alta dimens&atilde;o por meio de algor\itmos de detec&ccedil;&atilde;o de comunidades e super pixels <p class="infolinks">[<a href="javascript:toggleInfo('Linares','abstract')">Abstract</a>] [<a href="javascript:toggleInfo('Linares','bibtex')">BibTeX</a>]</p></td>
+	<td>2013</td>
+	<td>, pp. 88<i>School</i>: Instituto de Ci&ecirc;ncias Matem&aacute;ticas e de Computa&ccedil;&atilde;o&nbsp;</td>
+	<td>phdthesis</td>
+	<td><a href="https://doi.org/10.11606/d.55.2013.tde-25062013-100901">DOI</a> <a href="https://www.teses.usp.br/teses/disponiveis/55/55134/tde-25062013-100901/pt-br.php">URL</a>&nbsp;</td>
+</tr>
+<tr id="abs_Linares" class="abstract noshow">
+	<td colspan="6"><b>Abstract</b>: Segmenta&ccedil;&atilde;o de imagens &eacute; ainda uma etapa desafiadora do processo de reconhecimento de padr&otilde;es. Entre as abordagens de segmenta&ccedil;&atilde;o, muitas s&atilde;o baseadas em particionamento em grafos, as quais apresentam alguns inconvenientes, sendo um deles o tempo de processamento muito elevado. Com as recentes pesquisas na teoria de redes complexas, as t&eacute;cnicas de reconhecimento de padr&otilde;es baseadas em grafos melhoraram consideravelmente. A identifica&ccedil;&atilde;o de grupos de v&eacute;rtices pode ser considerada um processo de detec&ccedil;&atilde;o de comunidades de acordo com a teoria de redes complexas. Como o agrupamento de dados est&aacute; relacionado com a segmenta&ccedil;&atilde;o de imagens, esta tamb&eacute;m pode ser abordada atrav&eacute;s de redes complexas. No entanto, a segmenta&ccedil;&atilde;o de imagens baseado em redes complexas apresenta uma limita&ccedil;&atilde;o fundamental, que &eacute; o n&uacute;mero excessivo de n&oacute;s na rede. Neste trabalho &eacute; proposta uma abordagem de redes complexas para segmenta&ccedil;&atilde;o de imagens de grandes dimens&otilde;es que &eacute; ao mesmo tempo precisa e r&aacute;pida. Para alcan&ccedil;ar este objetivo, &eacute; incorporado o conceito de Super Pixels, visando reduzir o n&uacute;mero de n&oacute;s da rede. Os experimentos mostraram que a abordagem proposta produz segmenta&ccedil;&otilde;es de boa qualidade em baixo tempo de processamento. Al&eacute;m disso uma das principais contribui&ccedil;&otilde;es deste trabalho &eacute; a determina&ccedil;&atilde;o dos melhores par&acirc;metros, uma vez que torna o m&eacute;todo bastante independente dos par&acirc;metros, o que n&atilde;o fora alcan&ccedil;ado antes em nenhuma pesquisa da &aacute;rea.</td>
+</tr>
+<tr id="bib_Linares" class="bibtex noshow">
+<td colspan="6"><b>BibTeX</b>:
+<pre>
+@phdthesis{Linares,
+  author = {Oscar Alonso Cuadros Linares},
+  title = {Segmenta&ccedil;&atilde;o de imagens de alta dimens&atilde;o por meio de algor\itmos de detec&ccedil;&atilde;o de comunidades e super pixels},
+  publisher = {Universidade de Sao Paulo, Agencia USP de Gestao da Informacao Academica (AGUIA)},
+  school = {Instituto de Ci&ecirc;ncias Matem&aacute;ticas e de Computa&ccedil;&atilde;o},
+  year = {2013},
+  pages = {88},
+  url = {https://www.teses.usp.br/teses/disponiveis/55/55134/tde-25062013-100901/pt-br.php},
+  doi = {https://doi.org/10.11606/d.55.2013.tde-25062013-100901}
+}
+</pre></td>
+</tr>
+<tr id="Mayer_2017" class="entry">
+	<td>Mayer, F. and Steinebach, M.</td>
+	<td>Forensic Image Inspection Assisted by Deep Learning <p class="infolinks">[<a href="javascript:toggleInfo('Mayer_2017','abstract')">Abstract</a>] [<a href="javascript:toggleInfo('Mayer_2017','bibtex')">BibTeX</a>]</p></td>
+	<td>2017</td>
+	<td><br/>Vol. Part F1305Proceedings of the 12th International Conference on Availability, Reliability and Security&nbsp;</td>
+	<td>inproceedings</td>
+	<td><a href="https://doi.org/10.1145/3098954.3104051">DOI</a> &nbsp;</td>
+</tr>
+<tr id="abs_Mayer_2017" class="abstract noshow">
+	<td colspan="6"><b>Abstract</b>: Investigations on the charge of possessing child pornography usually require manual forensic image inspection in order to collect evidence. When storage devices are confiscated, law enforcement authorities are hence often faced with massive image datasets which have to be screened within a limited time frame. As the ability to concentrate and time are highly limited factors of a human investigator, we believe that intelligent algorithms can effectively assist the inspection process by rearranging images based on their content. Thus, more relevant images can be discovered within a shorter time frame, which is of special importance in time-critical investigations of triage character. While currently employed techniques are based on black- And whitelisting of known images, we propose to use deep learning algorithms trained for the detection of pornographic imagery, as they are able to identify new content. In our approach, we evaluated three state-of-the-art neural networks for the detection of pornographic images and employed them to rearrange simulated datasets of 1 million images containing a small fraction of pornographic content. The rearrangement of images according to their content allows a much earlier detection of relevant images during the actual manual inspection of the dataset, especially when the percentage of relevant images is low. With our approach, the first relevant image could be discovered between positions 8 and 9 in the rearranged list on average. Without using our approach of image rearrangement, the first relevant image was discovered at position 1,463 on average.</td>
+</tr>
+<tr id="bib_Mayer_2017" class="bibtex noshow">
+<td colspan="6"><b>BibTeX</b>:
+<pre>
+@inproceedings{Mayer_2017,
+  author = {Felix Mayer and Martin Steinebach},
+  title = {Forensic Image Inspection Assisted by Deep Learning},
+  booktitle = {Proceedings of the 12th International Conference on Availability, Reliability and Security},
+  publisher = {ACM},
+  year = {2017},
+  volume = {Part F1305},
+  doi = {https://doi.org/10.1145/3098954.3104051}
+}
+</pre></td>
+</tr>
+<tr id="Montanari" class="entry">
+	<td>Montanari, R.</td>
+	<td>Detec&ccedil;&atilde;o e classifica&ccedil;&atilde;o de objetos em imagens para rastreamento de ve\iculos <p class="infolinks">[<a href="javascript:toggleInfo('Montanari','abstract')">Abstract</a>] [<a href="javascript:toggleInfo('Montanari','bibtex')">BibTeX</a>]</p></td>
+	<td>2015</td>
+	<td>, pp. 77<i>School</i>: Instituto de Ci&ecirc;ncias Matem&aacute;ticas e de Computa&ccedil;&atilde;o&nbsp;</td>
+	<td>phdthesis</td>
+	<td><a href="https://doi.org/10.11606/d.55.2016.tde-08012016-113715">DOI</a> <a href="https://www.teses.usp.br/teses/disponiveis/55/55134/tde-08012016-113715/pt-br.php">URL</a>&nbsp;</td>
+</tr>
+<tr id="abs_Montanari" class="abstract noshow">
+	<td colspan="6"><b>Abstract</b>: A rob&oacute;tica &eacute; uma &aacute;rea multidisciplinar que cresce continuamente com a contribui&ccedil;&atilde;o do avan&ccedil;o cient&iacute;fico e aumento frequente do poder computacional do hardware. As pesquisas em rob&oacute;tica est&atilde;o divididas em diversas linhas de investiga&ccedil;&atilde;o. A vis&atilde;o computacional &eacute; uma das linhas de pesquisa de grande interesse devido &agrave; farta variedade de m&eacute;todos e t&eacute;cnicas oferecidas. Um dos maiores desafios para os rob&ocirc;s &eacute; descobrir e analisar o ambiente em que est&atilde;o inseridos. Dentre os principais sensores que podem ser utilizados, as c&acirc;meras digitais oferecem um bom benef&iacute;cio: podem ser leves, pequenas e baratas, caracter&iacute;sticas fundamentais para alguns rob&ocirc;s. Este trabalho prop&otilde;e o desenvolvimento e an&aacute;lise de um sistema de vis&atilde;o computacional para rastrear ve&iacute;culos usando sistemas de detec&ccedil;&atilde;o e classifica&ccedil;&atilde;o de segmentos em imagens. Para atingir os objetivos s&atilde;o investigados m&eacute;todos de extra&ccedil;&atilde;o de informa&ccedil;&otilde;es das imagens, modelos de aten&ccedil;&atilde;o visual e modelos de aprendizado bioinspirados para detec&ccedil;&atilde;o e classifica&ccedil;&atilde;o de ve&iacute;culos. Para a tarefa de aten&ccedil;&atilde;o visual foram utilizadas as t&eacute;cnicas de gera&ccedil;&atilde;o de mapas de sali&ecirc;ncia iNVT e VOCUS2, enquanto que para classifica&ccedil;&atilde;o foi empregada a t&eacute;cnicas bag-of-features e finalmente, para o rastreamento do ve&iacute;culo especificado, durante seu percurso em uma rodovia, foi adotada a t&eacute;cnica Camshift com filtro de Kalman. O sistema desenvolvido foi implementado com um rob&ocirc; a&eacute;reo e testado com imagens reais contendo diferentes ve&iacute;culos em uma rodovia e os resultados de classifica&ccedil;&atilde;o e rastreamento obtidos foram muito satisfat&oacute;rios.</td>
+</tr>
+<tr id="bib_Montanari" class="bibtex noshow">
+<td colspan="6"><b>BibTeX</b>:
+<pre>
+@phdthesis{Montanari,
+  author = {Raphael Montanari},
+  title = {Detec&ccedil;&atilde;o e classifica&ccedil;&atilde;o de objetos em imagens para rastreamento de ve\iculos},
+  publisher = {Universidade de Sao Paulo, Agencia USP de Gestao da Informacao Academica (AGUIA)},
+  school = {Instituto de Ci&ecirc;ncias Matem&aacute;ticas e de Computa&ccedil;&atilde;o},
+  year = {2015},
+  pages = {77},
+  url = {https://www.teses.usp.br/teses/disponiveis/55/55134/tde-08012016-113715/pt-br.php},
+  doi = {https://doi.org/10.11606/d.55.2016.tde-08012016-113715}
+}
+</pre></td>
+</tr>
+<tr id="Paiva" class="entry">
+	<td>de Souza Paiva, J.G.</td>
+	<td>T&eacute;cnicas computacionais de apoio &agrave; classifica&ccedil;&atilde;o visual de imagens e outros dados <p class="infolinks">[<a href="javascript:toggleInfo('Paiva','abstract')">Abstract</a>] [<a href="javascript:toggleInfo('Paiva','bibtex')">BibTeX</a>]</p></td>
+	<td>2012</td>
+	<td>, pp. 190<i>School</i>: Instituto de Ci&ecirc;ncias Matem&aacute;ticas e de Computa&ccedil;&atilde;o&nbsp;</td>
+	<td>phdthesis</td>
+	<td><a href="https://doi.org/10.11606/t.55.2012.tde-02042013-084718">DOI</a> <a href="https://www.teses.usp.br/teses/disponiveis/55/55134/tde-02042013-084718/pt-br.php">URL</a>&nbsp;</td>
+</tr>
+<tr id="abs_Paiva" class="abstract noshow">
+	<td colspan="6"><b>Abstract</b>: O processo autom&aacute;tico de classifica&ccedil;&atilde;o de dados em geral, e em particular de classifica&ccedil;&atilde;o de imagens, &eacute; uma tarefa computacionalmente intensiva e vari&aacute;vel em termos de precis&atilde;o, sendo consideravelmente dependente da configura&ccedil;&atilde;o do classificador e da representa&ccedil;&atilde;o dos dados utilizada. Muitos dos fatores que afetam uma adequada aplica&ccedil;&atilde;o dos m&eacute;todos de classifica&ccedil;&atilde;o ou categoriza&ccedil;&atilde;o para imagens apontam para a necessidade de uma maior interfer&ecirc;ncia do usu&aacute;rio no processo. Para isso s&atilde;o necess&aacute;rias mais ferramentas de apoio &agrave;s v&aacute;rias etapas do processo de classifica&ccedil;&atilde;o, tais como, mas n&atilde;o limitadas, a extra&ccedil;&atilde;o de caracter&iacute;sticas, a parametriza&ccedil;&atilde;o dos algoritmos de classifica&ccedil;&atilde;o e a escolha de inst&acirc;ncias de treinamento adequadas. Este doutorado apresenta uma metodologia para Classifica&ccedil;&atilde;o Visual de Imagens, baseada na inser&ccedil;&atilde;o do usu&aacute;rio no processo de classifica&ccedil;&atilde;o autom&aacute;tica atrav&eacute;s do uso de t&eacute;cnicas de visualiza&ccedil;&atilde;o. A ideia &eacute; permitir que o usu&aacute;rio participe de todos os passos da classifica&ccedil;&atilde;o de determinada cole&ccedil;&atilde;o, realizando ajustes e consequentemente melhorando os resultados de acordo com suas necessidades. Um estudo de diversas t&eacute;cnicas de visualiza&ccedil;&atilde;o candidatas para a tarefa &eacute; apresentado, com destaque para as &aacute;rvores de similaridade, sendo apresentadas melhorias do algoritmo de constru&ccedil;&atilde;o em termos de escalabilidade visual e de tempo de processamento. Adicionalmente, uma metodologia de redu&ccedil;&atilde;o de dimensionalidade visual semi-supervisionada &eacute; apresentada para apoiar, pela utiliza&ccedil;&atilde;o de ferramentas visuais, a cria&ccedil;&atilde;o de espa&ccedil;os reduzidos que melhorem as caracter&iacute;sticas de segrega&ccedil;&atilde;o do conjunto original de caracter&iacute;sticas. A principal contribui&ccedil;&atilde;o do trabalho &eacute; um sistema de classifica&ccedil;&atilde;o visual incremental que incorpora todos os passos da metodologia proposta, oferecendo ferramentas interativas e visuais que permitem a interfer&ecirc;ncia do usu&aacute;rio na classifica&ccedil;&atilde;o de cole&ccedil;&otilde;es incrementais com configura&ccedil;&atilde;o de classes vari&aacute;vel. Isso possibilita a utiliza&ccedil;&atilde;o do conhecimento do ser humano na constru&ccedil;&atilde;o de classificadores que se adequem a diferentes necessidades dos usu&aacute;rios em diferentes cen&aacute;rios, produzindo resultados satisfat&oacute;rios para cole&ccedil;&otilde;es de dados diversas. O foco desta tese &eacute; em categoriza&ccedil;&atilde;o de cole&ccedil;&otilde;es de imagens, com exemplos tamb&eacute;m para conjuntos de dados textuais.</td>
+</tr>
+<tr id="bib_Paiva" class="bibtex noshow">
+<td colspan="6"><b>BibTeX</b>:
+<pre>
+@phdthesis{Paiva,
+  author = {Jos&eacute; Gustavo de Souza Paiva},
+  title = {T&eacute;cnicas computacionais de apoio &agrave; classifica&ccedil;&atilde;o visual de imagens e outros dados},
+  publisher = {Universidade de Sao Paulo, Agencia USP de Gestao da Informacao Academica (AGUIA)},
+  school = {Instituto de Ci&ecirc;ncias Matem&aacute;ticas e de Computa&ccedil;&atilde;o},
+  year = {2012},
+  pages = {190},
+  url = {https://www.teses.usp.br/teses/disponiveis/55/55134/tde-02042013-084718/pt-br.php},
+  doi = {https://doi.org/10.11606/t.55.2012.tde-02042013-084718}
+}
+</pre></td>
+</tr>
+<tr id="Paiva" class="entry">
+	<td>de Paiva, J.L.</td>
+	<td>Um algoritmo gen&eacute;tico h\ibrido para supress&atilde;o de ru\idos em imagens <p class="infolinks">[<a href="javascript:toggleInfo('Paiva','abstract')">Abstract</a>] [<a href="javascript:toggleInfo('Paiva','bibtex')">BibTeX</a>]</p></td>
+	<td>2015</td>
+	<td>, pp. 125<i>School</i>: Instituto de Ci&ecirc;ncias Matem&aacute;ticas e de Computa&ccedil;&atilde;o&nbsp;</td>
+	<td>phdthesis</td>
+	<td><a href="https://doi.org/10.11606/d.55.2016.tde-11042016-105926">DOI</a> <a href="https://www.teses.usp.br/teses/disponiveis/55/55134/tde-11042016-105926/pt-br.php">URL</a>&nbsp;</td>
+</tr>
+<tr id="abs_Paiva" class="abstract noshow">
+	<td colspan="6"><b>Abstract</b>: Imagens digitais s&atilde;o utilizadas para diversas finalidades, variando de uma simples foto com os amigos at&eacute; a identifica&ccedil;&atilde;o de doen&ccedil;as em exames m&eacute;dicos. Por mais que as tecnologias de captura de imagens tenham evolu&iacute;do, toda imagem adquirida digitalmente possui um ru&iacute;do intr&iacute;nseco a ela que normalmente &eacute; adquirido durante os processo de captura ou transmiss&atilde;o da imagem. O grande desafio neste tipo de problema consiste em recuperar a imagem perdendo o m&iacute;nimo poss&iacute;vel de caracter&iacute;sticas importantes da imagem, como cantos, bordas e texturas. Este trabalho prop&otilde;e uma abordagem baseada em um Algoritmo Gen&eacute;tico H&iacute;brido (AGH) para lidar com este tipo de problema. O AGH combina um algoritmo gen&eacute;tico com alguns dos melhores m&eacute;todos de supress&atilde;o de ru&iacute;dos em imagens encontrados na literatura, utilizando-os como operadores de busca local. O AGH foi testado em imagens normalmente utilizadas como benchmark corrompidas com um ru&iacute;do branco aditivo Gaussiano (N; 0), com diversos n&iacute;veis de desvio padr&atilde;o para o ru&iacute;do. Seus resultados, medidos pelas m&eacute;tricas PSNR e SSIM, s&atilde;o comparados com os resultados obtidos por diferentes m&eacute;todos. O AGH tamb&eacute;m foi testado para recuperar imagens SAR (Synthetic Aperture Radar), corrompidas com um ru&iacute;do Speckle multiplicativo, e tamb&eacute;m teve seus resultados comparados com m&eacute;todos especializados em recuperar imagens SAR. Atrav&eacute;s dessa abordagem h&iacute;brida, o AGH foi capaz de obter resultados competitivos em ambos os tipos de testes, chegando inclusive a obter melhores resultados em diversos casos em rela&ccedil;&atilde;o aos m&eacute;todos da literatura.</td>
+</tr>
+<tr id="bib_Paiva" class="bibtex noshow">
+<td colspan="6"><b>BibTeX</b>:
+<pre>
+@phdthesis{Paiva,
+  author = {J&ocirc;natas Lopes de Paiva},
+  title = {Um algoritmo gen&eacute;tico h\ibrido para supress&atilde;o de ru\idos em imagens},
+  publisher = {Universidade de Sao Paulo, Agencia USP de Gestao da Informacao Academica (AGUIA)},
+  school = {Instituto de Ci&ecirc;ncias Matem&aacute;ticas e de Computa&ccedil;&atilde;o},
+  year = {2015},
+  pages = {125},
+  url = {https://www.teses.usp.br/teses/disponiveis/55/55134/tde-11042016-105926/pt-br.php},
+  doi = {https://doi.org/10.11606/d.55.2016.tde-11042016-105926}
+}
+</pre></td>
+</tr>
+<tr id="Roncatti" class="entry">
+	<td>Roncatti, M.A.</td>
+	<td>Avalia&ccedil;&atilde;o de m&eacute;todos &oacute;timos e sub&oacute;timos de sele&ccedil;&atilde;o de caracter\isticas de texturas em imagens <p class="infolinks">[<a href="javascript:toggleInfo('Roncatti','abstract')">Abstract</a>] [<a href="javascript:toggleInfo('Roncatti','bibtex')">BibTeX</a>]</p></td>
+	<td>2008</td>
+	<td>, pp. 110<i>School</i>: Instituto de Ci&ecirc;ncias Matem&aacute;ticas e de Computa&ccedil;&atilde;o&nbsp;</td>
+	<td>phdthesis</td>
+	<td><a href="https://doi.org/10.11606/d.55.2008.tde-26082008-170000">DOI</a> <a href="https://www.teses.usp.br/teses/disponiveis/55/55134/tde-26082008-170000/pt-br.php">URL</a>&nbsp;</td>
+</tr>
+<tr id="abs_Roncatti" class="abstract noshow">
+	<td colspan="6"><b>Abstract</b>: Caracter&iacute;sticas de texturas atuam como bons descritores de imagens e podem ser empregadas em diversos problemas, como classifica&ccedil;&atilde;o e segmenta&ccedil;&atilde;o. Por&eacute;m, quando o n&uacute;mero de caracter&iacute;sticas &eacute; muito elevado, o reconhecimento de padr&otilde;es pode ser prejudicado. A sele&ccedil;&atilde;o de caracter&iacute;sticas contribui para a solu&ccedil;&atilde;o desse problema, podendo ser empregada tanto para redu&ccedil;&atilde;o da dimensionalidade como tamb&eacute;m para descobrir quais as melhores caracter&iacute;sticas de texturas para o tipo de imagem analisada. O objetivo deste trabalho &eacute; avaliar m&eacute;todos &oacute;timos e sub&oacute;timos de sele&ccedil;&atilde;o de caracter&iacute;sticas em problemas que envolvem texturas de imagens. Os algoritmos de sele&ccedil;&atilde;o avaliados foram o branch and bound, a busca exaustiva e o sequential oating forward selection (SFFS). As fun&ccedil;&otilde;es crit&eacute;rio empregadas na sele&ccedil;&atilde;o foram a dist&acirc;ncia de Jeffries-Matusita e a taxa de acerto do classificador de dist&acirc;ncia m&iacute;nima (CDM). As caracter&iacute;sticas de texturas empregadas nos experimentos foram obtidas com estat&iacute;sticas de primeira ordem, matrizes de co-ocorr&ecirc;ncia e filtros de Gabor. Os experimentos realizados foram a classifica&ccedil;&atilde;o de regi&ocirc;es de uma foto a&eacute;rea de planta&ccedil;&atilde;o de eucalipto, a segmenta&ccedil;&atilde;o n&atilde;o-supervisionada de mosaicos de texturas de Brodatz e a segmenta&ccedil;&atilde;o supervisionada de imagens m&eacute;dicas (MRI do c&eacute;rebro). O branch and bound &eacute; um algoritmo &oacute;timo e mais efiiente do que a busca exaustiva na maioria dos casos. Por&eacute;m, continua sendo um algoritmo lento. Este trabalho apresenta uma nova estrat&eacute;gia para o branch and bound, nomeada floresta, que melhorou significativamente a efici&ecirc;ncia do algoritmo. A avalia&ccedil;&atilde;o dos m&eacute;todos de sele&ccedil;&atilde;o de caracter&iacute;sticas mostrou que os melhores subconjuntos foram aqueles obtidos com o uso da taxa de acerto do CDM. A busca exaustiva e o branch and bound, mesmo com a estrat&eacute;gia floresta, foram considerados invi&aacute;veis devido ao alto tempo de processamento nos casos em que o n&uacute;mero de caracter&iacute;stica &eacute; muito grande. O SFFS apresentou os melhores resultados, pois, al&eacute;m de mais r&aacute;pido, encontrou as solu&ccedil;&otilde;es &oacute;timas ou pr&oacute;ximas das &oacute;timas. P&ocirc;de-se concluir tamb&eacute;m que a precis&atilde;o no reconhecimento de padr&otilde;es aumenta com a redu&ccedil;&atilde;o do n&uacute;mero de caracter&iacute;sticas e que os melhores subconjuntos freq&uuml;entemente s&atilde;o formados por caracter&iacute;sticas de texturas obtidas com t&eacute;cnicas diferentes.</td>
+</tr>
+<tr id="bib_Roncatti" class="bibtex noshow">
+<td colspan="6"><b>BibTeX</b>:
+<pre>
+@phdthesis{Roncatti,
+  author = {Marco Aurelio Roncatti},
+  title = {Avalia&ccedil;&atilde;o de m&eacute;todos &oacute;timos e sub&oacute;timos de sele&ccedil;&atilde;o de caracter\isticas de texturas em imagens},
+  publisher = {Universidade de Sao Paulo, Agencia USP de Gestao da Informacao Academica (AGUIA)},
+  school = {Instituto de Ci&ecirc;ncias Matem&aacute;ticas e de Computa&ccedil;&atilde;o},
+  year = {2008},
+  pages = {110},
+  url = {https://www.teses.usp.br/teses/disponiveis/55/55134/tde-26082008-170000/pt-br.php},
+  doi = {https://doi.org/10.11606/d.55.2008.tde-26082008-170000}
+}
+</pre></td>
+</tr>
+<tr id="Silva" class="entry">
+	<td>da Silva, N.R.</td>
+	<td>Reconhecimento de padr&otilde;es heterog&ecirc;neos e suas aplica&ccedil;&otilde;es em biologia e nanotecnologia <p class="infolinks">[<a href="javascript:toggleInfo('Silva','abstract')">Abstract</a>] [<a href="javascript:toggleInfo('Silva','bibtex')">BibTeX</a>]</p></td>
+	<td>2015</td>
+	<td>, pp. 128<i>School</i>: Instituto de Ci&ecirc;ncias Matem&aacute;ticas e de Computa&ccedil;&atilde;o&nbsp;</td>
+	<td>phdthesis</td>
+	<td><a href="https://doi.org/10.11606/t.55.2016.tde-30032016-145929">DOI</a> <a href="https://www.teses.usp.br/teses/disponiveis/55/55134/tde-30032016-145929/pt-br.php">URL</a>&nbsp;</td>
+</tr>
+<tr id="abs_Silva" class="abstract noshow">
+	<td colspan="6"><b>Abstract</b>: O reconhecimento de padr&otilde;es de textura em imagens tem sido uma importante ferramenta na &aacute;rea de vis&atilde;o computacional. Isso porque o atributo textura pode revelar caracter&iacute;sticas intr&iacute;nsecas, tornando poss&iacute;vel a classifica&ccedil;&atilde;o de um conjunto de imagens semelhantes. Embora a textura seja estudada h&aacute; mais de meio s&eacute;culo, ainda n&atilde;o existe um consenso sobre sua defini&ccedil;&atilde;o e nem mesmo um m&eacute;todo de extra&ccedil;&atilde;o de caracter&iacute;sticas de textura que seja eficiente para todos os tipos de imagens. Al&eacute;m disso, os m&eacute;todos da literatura analisam os padr&otilde;es de textura de maneira global, considerando que uma imagem apresente um conjunto de micropadr&otilde;es que formam um &uacute;nico padr&atilde;o global ou homog&ecirc;neo de textura na imagem. No entanto, alguns tipos de imagens apresentam heterogeneidade em sua composi&ccedil;&atilde;o, ou seja, o conjunto de micropadr&otilde;es na imagem &eacute; respons&aacute;vel por formar mais de um padr&atilde;o de textura dentro da mesma imagem. Esse tipo de imagens levou ao prop&oacute;sito de investiga&ccedil;&atilde;o deste trabalho. Independentemente do m&eacute;todo de extra&ccedil;&atilde;o de caracter&iacute;stica utilizado, considerar a heterogeneidade do padr&atilde;o de textura em uma imagem leva a uma melhor representa&ccedil;&atilde;o de suas caracter&iacute;sticas. Para melhorar a an&aacute;lise de padr&otilde;es heterog&ecirc;neos de textura, tr&ecirc;s abordagens s&atilde;o propostas: (i) lazy-patch, (ii) combina&ccedil;&atilde;o de modelos e (iii) modelagem da textura por meio de aut&ocirc;matos celulares inspirados em corros&atilde;o alveolar. Os resultados ao aplicar essas abordagens em diferentes conjuntos de imagens de biologia e nanotecnologia, mostraram que a an&aacute;lise de padr&otilde;es heterog&ecirc;neos resulta em melhor representatividade de imagens que possuem padr&otilde;es heterog&ecirc;neos de textura em sua composi&ccedil;&atilde;o.</td>
+</tr>
+<tr id="bib_Silva" class="bibtex noshow">
+<td colspan="6"><b>BibTeX</b>:
+<pre>
+@phdthesis{Silva,
+  author = {N&uacute;bia Rosa da Silva},
+  title = {Reconhecimento de padr&otilde;es heterog&ecirc;neos e suas aplica&ccedil;&otilde;es em biologia e nanotecnologia},
+  publisher = {Universidade de Sao Paulo, Agencia USP de Gestao da Informacao Academica (AGUIA)},
+  school = {Instituto de Ci&ecirc;ncias Matem&aacute;ticas e de Computa&ccedil;&atilde;o},
+  year = {2015},
+  pages = {128},
+  url = {https://www.teses.usp.br/teses/disponiveis/55/55134/tde-30032016-145929/pt-br.php},
+  doi = {https://doi.org/10.11606/t.55.2016.tde-30032016-145929}
+}
+</pre></td>
+</tr>
+<tr id="Silva" class="entry">
+	<td>Silva, T.C.</td>
+	<td>Machine learning in complex networks: modeling, analysis, and applications <p class="infolinks">[<a href="javascript:toggleInfo('Silva','abstract')">Abstract</a>] [<a href="javascript:toggleInfo('Silva','bibtex')">BibTeX</a>]</p></td>
+	<td>2012</td>
+	<td>, pp. 284<i>School</i>: Instituto de Ci&ecirc;ncias Matem&aacute;ticas e de Computa&ccedil;&atilde;o&nbsp;</td>
+	<td>phdthesis</td>
+	<td><a href="https://doi.org/10.11606/t.55.2012.tde-19042013-104641">DOI</a> <a href="https://www.teses.usp.br/teses/disponiveis/55/55134/tde-19042013-104641/pt-br.php">URL</a>&nbsp;</td>
+</tr>
+<tr id="abs_Silva" class="abstract noshow">
+	<td colspan="6"><b>Abstract</b>: Machine learning is evidenced as a research area with the main purpose of develop- ing computational methods that are capable of learning with their previously acquired experiences. Although a large amount of machine learning techniques has been pro- posed and successfully applied in real systems, there are still many challenging is- sues, which need be addressed. In the last years, an increasing interest in techniques based on complex networks (large-scale graphs with nontrivial connection patterns) has been verified. This emergence is explained by the inherent advantages provided by the complex network representation, which is able to capture the spatial, topological and functional relations of the data. In this work, we investigate the new features and possible advantages offered by complex networks in the machine learning domain. In fact, we do show that the network-based approach really brings interesting features for supervised, semisupervised, and unsupervised learning. Specifically, we reformu- late a previously proposed particle competition technique for both unsupervised and semisupervised learning using a stochastic nonlinear dynamical system. Moreover, an analytical analysis is supplied, which enables one to predict the behavior of the proposed technique. In addition to that, data reliability issues are explored in semisu- pervised learning. Such matter has practical importance and is found to be of little investigation in the literature. With the goal of validating these techniques for solving real problems, simulations on broadly accepted databases are conducted. Still in this work, we propose a hybrid supervised classification technique that combines both low and high orders of learning. The low level term can be implemented by any classifi- cation technique, while the high level term is realized by the extraction of features of the underlying network constructed from the input data. Thus, the former classifies the test instances by their physical features, while the latter measures the compliance of the test instances with the pattern formation of the data. Our study shows that the proposed technique not only can realize classification according to the semantic mean- ing of the data, but also is able to improve the performance of traditional classification techniques. Finally, it is expected that this study will contribute, in a relevant manner, to the machine learning area.</td>
+</tr>
+<tr id="bib_Silva" class="bibtex noshow">
+<td colspan="6"><b>BibTeX</b>:
+<pre>
+@phdthesis{Silva,
+  author = {Thiago Christiano Silva},
+  title = {Machine learning in complex networks: modeling, analysis, and applications},
+  publisher = {Universidade de Sao Paulo, Agencia USP de Gestao da Informacao Academica (AGUIA)},
+  school = {Instituto de Ci&ecirc;ncias Matem&aacute;ticas e de Computa&ccedil;&atilde;o},
+  year = {2012},
+  pages = {284},
+  url = {https://www.teses.usp.br/teses/disponiveis/55/55134/tde-19042013-104641/pt-br.php},
+  doi = {https://doi.org/10.11606/t.55.2012.tde-19042013-104641}
+}
+</pre></td>
+</tr>
+<tr id="Uijlings_2013" class="entry">
+	<td>Uijlings, J.R.R., van de Sande, K.E.A., Gevers, T. and Smeulders, A.W.M.</td>
+	<td>Selective Search for Object Recognition <p class="infolinks">[<a href="javascript:toggleInfo('Uijlings_2013','abstract')">Abstract</a>] [<a href="javascript:toggleInfo('Uijlings_2013','bibtex')">BibTeX</a>]</p></td>
+	<td>2013</td>
+	<td>International Journal of Computer Vision<br/>Vol. 104(2), pp. 154-171&nbsp;</td>
+	<td>article</td>
+	<td><a href="https://doi.org/10.1007/s11263-013-0620-5">DOI</a> <a href="https://doi.org/10.1007/s11263-013-0620-5 http://disi.unitn.it/{~}uijlings/SelectiveSearch.html">URL</a>&nbsp;</td>
+</tr>
+<tr id="abs_Uijlings_2013" class="abstract noshow">
+	<td colspan="6"><b>Abstract</b>: This paper addresses the problem of generating possible object locations for use in object recognition. We introduce selective search which combines the strength of both an exhaustive search and segmentation. Like segmentation, we use the image structure to guide our sampling process. Like exhaustive search, we aim to capture all possible object locations. Instead of a single technique to generate possible object locations, we diversify our search and use a variety of complementary image partitionings to deal with as many image conditions as possible. Our selective search results in a small set of data-driven, class-independent, high quality locations, yielding 99 &#37; recall and a Mean Average Best Overlap of 0.879 at 10,097 locations. The reduced number of locations compared to an exhaustive search enables the use of stronger machine learning techniques and stronger appearance models for object recognition. In this paper we show that our selective search enables the use of the powerful Bag-of-Words model for recognition. The selective search software is made publicly available (Software: http://disi.unitn.it/&tilde;uijlings/SelectiveSearch. html). textcopyright 2013 Springer Science+Business Media New York.</td>
+</tr>
+<tr id="bib_Uijlings_2013" class="bibtex noshow">
+<td colspan="6"><b>BibTeX</b>:
+<pre>
+@article{Uijlings_2013,
+  author = {J. R. R. Uijlings and K. E. A. van de Sande and T. Gevers and A. W. M. Smeulders},
+  title = {Selective Search for Object Recognition},
+  journal = {International Journal of Computer Vision},
+  publisher = {Springer Science and Business Media LLC},
+  year = {2013},
+  volume = {104},
+  number = {2},
+  pages = {154--171},
+  url = {https://doi.org/10.1007/s11263-013-0620-5 http://disi.unitn.it/&nbsp;uijlings/SelectiveSearch.html},
+  doi = {https://doi.org/10.1007/s11263-013-0620-5}
+}
+</pre></td>
+</tr>
+<tr id="Xu_2020" class="entry">
+	<td>Xu, Y., Yu, X., Wang, T. and Xu, Z.</td>
+	<td>Pooling region learning of visual word for image classification using bag-of-visual-words model <p class="infolinks">[<a href="javascript:toggleInfo('Xu_2020','abstract')">Abstract</a>] [<a href="javascript:toggleInfo('Xu_2020','bibtex')">BibTeX</a>]</p></td>
+	<td>2020</td>
+	<td>PLOS ONE<br/>Vol. 15(6), pp. e0234144&nbsp;</td>
+	<td>article</td>
+	<td><a href="https://doi.org/10.1371/journal.pone.0234144">DOI</a> &nbsp;</td>
+</tr>
+<tr id="abs_Xu_2020" class="abstract noshow">
+	<td colspan="6"><b>Abstract</b>: In the problem where there is not enough data to use Deep Learning, Bag-of-Visual-Words (BoVW) is still a good alternative for image classification. In BoVW model, many pooling methods are proposed to incorporate the spatial information of local feature into the image representation vector, but none of the methods devote to making each visual word have its own pooling regions. The practice of designing the same pooling regions for all the words restrains the discriminability of image representation, since the spatial distributions of the local features indexed by different visual words are not same. In this paper, we propose to make each visual word have its own pooling regions, and raise a simple yet effective method for learning pooling region. Concretely, a kind of small window named observation window is used to obtain its responses to each word over the whole image region. The pooling regions of each word are organized by a kind of tree structure, in which each node indicates a pooling region. For each word, its pooling regions are learned by constructing a tree with its labelled coordinate data. The labelled coordinate data consist of the coordinates of responses and image class labels. The effectiveness of our method is validated by observing if there is an obvious classification accuracy improvement after applying our method. Our experimental results on four small datasets (i.e., Scene-15, Caltech-101, Caltech-256 and Corel-10) show that, the classification accuracy is improved by about 1&#37; to 2.5&#37;. We experimentally demonstrate that the practice of making each word have its own pooling regions is beneficial to image classification task, which is the significance of our work.</td>
+</tr>
+<tr id="bib_Xu_2020" class="bibtex noshow">
+<td colspan="6"><b>BibTeX</b>:
+<pre>
+@article{Xu_2020,
+  author = {Ye Xu and Xiaodong Yu and Tian Wang and Zezhong Xu},
+  title = {Pooling region learning of visual word for image classification using bag-of-visual-words model},
+  journal = {PLOS ONE},
+  publisher = {Public Library of Science (PLoS)},
+  year = {2020},
+  volume = {15},
+  number = {6},
+  pages = {e0234144},
+  doi = {https://doi.org/10.1371/journal.pone.0234144}
+}
+</pre></td>
+</tr>
+</tbody>
+</table>
+<footer>
+ <small>Created by <a href="http://jabref.sourceforge.net">JabRef</a> on 29/06/2020.</small>
+</footer>
+<!-- file generated by JabRef -->
+</body>
+</html>
