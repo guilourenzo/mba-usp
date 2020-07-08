@@ -1,33 +1,22 @@
-- https://www.teses.usp.br/teses/disponiveis/55/55134/tde-08012016-113715/pt-br.php
-    MONTANARI, Raphael. Detecção e classificação de objetos em imagens para rastreamento de veículos. 2015. Dissertação (Mestrado em Ciências de Computação e Matemática Computacional) - Instituto de Ciências Matemáticas e de Computação, Universidade de São Paulo, São Carlos, 2015. doi:10.11606/D.55.2016.tde-08012016-113715. Acesso em: 2020-06-28.
+- Redes Neurais
 
-- https://www.teses.usp.br/teses/disponiveis/55/55134/tde-30032016-145929/pt-br.php
-    SILVA, Núbia Rosa da. Reconhecimento de padrões heterogêneos e suas aplicações em biologia e nanotecnologia. 2015. Tese (Doutorado em Ciências de Computação e Matemática Computacional) - Instituto de Ciências Matemáticas e de Computação, Universidade de São Paulo, São Carlos, 2015. doi:10.11606/T.55.2016.tde-30032016-145929. Acesso em: 2020-06-28.
+- Redes Convolacionais [CNN]
 
-- https://www.teses.usp.br/teses/disponiveis/55/55134/tde-02042013-084718/pt-br.php
-    PAIVA, José Gustavo de Souza. Técnicas computacionais de apoio à classificação visual de imagens e outros dados. 2012. Tese (Doutorado em Ciências de Computação e Matemática Computacional) - Instituto de Ciências Matemáticas e de Computação, Universidade de São Paulo, São Carlos, 2012. doi:10.11606/T.55.2012.tde-02042013-084718. Acesso em: 2020-06-28.
+- Funções de Ativação
 
-- https://www.teses.usp.br/teses/disponiveis/55/55134/tde-22012007-160023/pt-br.php
-    ALMEIDA, Osvaldo Cesar Pinheiro de. Técnicas de processamento de imagens para localização e reconhecimento de faces. 2006. Dissertação (Mestrado em Ciências de Computação e Matemática Computacional) - Instituto de Ciências Matemáticas e de Computação, Universidade de São Paulo, São Carlos, 2006. doi:10.11606/D.55.2006.tde-22012007-160023. Acesso em: 2020-06-28.
+- Hiper-parâmetros
 
-- https://www.teses.usp.br/teses/disponiveis/55/55134/tde-26082008-170000/pt-br.php
-    RONCATTI, Marco Aurelio. Avaliação de métodos ótimos e subótimos de seleção de características de texturas em imagens. 2008. Dissertação (Mestrado em Ciências de Computação e Matemática Computacional) - Instituto de Ciências Matemáticas e de Computação, Universidade de São Paulo, São Carlos, 2008. doi:10.11606/D.55.2008.tde-26082008-170000. Acesso em: 2020-06-28.
+- Computer Vision
 
-- https://www.teses.usp.br/teses/disponiveis/55/55134/tde-11042016-105926/pt-br.php
-    PAIVA, Jônatas Lopes de. Um algoritmo genético híbrido para supressão de ruídos em imagens. 2015. Dissertação (Mestrado em Ciências de Computação e Matemática Computacional) - Instituto de Ciências Matemáticas e de Computação, Universidade de São Paulo, São Carlos, 2015. doi:10.11606/D.55.2016.tde-11042016-105926. Acesso em: 2020-06-28.
+- Deep Learning
 
-- https://web.b.ebscohost.com/ehost/detail/detail?vid=0&sid=120655a0-83b2-4b71-a220-9cea2267f9f9%40sessionmgr101&bdata=Jmxhbmc9cHQtYnImc2l0ZT1laG9zdC1saXZl#AN=143609035&db=fsr
-    XU, Y. et al. Pooling region learning of visual word for image classification using bag-of-visual-words model. PLoS ONE, [s. l.], v. 15, n. 6, p. 1–19, 2020. DOI 10.1371/journal.pone.0234144. Disponível em: http://search.ebscohost.com/login.aspx?direct=true&db=fsr&AN=143609035&lang=pt-br&site=ehost-live. Acesso em: 27 jun. 2020.
+- Machine Learning
 
-- https://www.teses.usp.br/teses/disponiveis/55/55134/tde-16032015-113613/pt-br.php
-    BOTELHO, Glenda Michele. Segmentação de imagens baseada em redes complexas e superpixels: uma aplicação ao censo de aves. 2014. Tese (Doutorado em Ciências de Computação e Matemática Computacional) - Instituto de Ciências Matemáticas e de Computação, Universidade de São Paulo, São Carlos, 2014. doi:10.11606/T.55.2014.tde-16032015-113613. Acesso em: 2020-06-28.
+- Classificação de Imagens [Image Recognition]
+    - Pipelines
+    - Extração de Features
+    - Modelos de Classificação
 
-- https://www.teses.usp.br/teses/disponiveis/55/55134/tde-19042013-104641/pt-br.php
-    SILVA, Thiago Christiano. Machine learning in complex networks: modeling, analysis, and applications. 2012. Tese (Doutorado em Ciências de Computação e Matemática Computacional) - Instituto de Ciências Matemáticas e de Computação, Universidade de São Paulo, São Carlos, 2012. doi:10.11606/T.55.2012.tde-19042013-104641. Acesso em: 2020-06-28.
-
-- https://www.teses.usp.br/teses/disponiveis/55/55134/tde-25062013-100901/pt-br.php
-    LINARES, Oscar Alonso Cuadros. Segmentação de imagens de alta dimensão por meio de algorítmos de detecção de comunidades e super pixels. 2013. Dissertação (Mestrado em Ciências de Computação e Matemática Computacional) - Instituto de Ciências Matemáticas e de Computação, Universidade de São Paulo, São Carlos, 2013. doi:10.11606/D.55.2013.tde-25062013-100901. Acesso em: 2020-06-28.
-
-- http://search.ebscohost.com/login.aspx?direct=true&db=fsr&AN=125088226&lang=pt-br&site=ehost-live
-    SHIH-CHUNG HSU; I-CHIEH CHEN; CHUNG-LIN HUANG. Image Classification Using Naive Bayes Classifier With Pairwise Local Observations. Journal of Information Science & Engineering, [s. l.], v. 33, n. 5, p. 1177–1193, 2017. DOI 10.6688/JISE.2017.33.5.5. Disponível em: http://search.ebscohost.com/login.aspx?direct=true&db=fsr&AN=125088226&lang=pt-br&site=ehost-live. Acesso em: 28 jun. 2020.
+- Transfer Learning
+    - Modelos pré-treinados
 
