@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/home/guilourenzo/anaconda3/bin/python",
+    "python.pythonPath": "C:\\Users\\guilo\\anaconda3\\python.exe",
     "python.dataScience.textOutputLimit": 0,
     "vsintellicode.features.python.deepLearning": "enabled"
 }
