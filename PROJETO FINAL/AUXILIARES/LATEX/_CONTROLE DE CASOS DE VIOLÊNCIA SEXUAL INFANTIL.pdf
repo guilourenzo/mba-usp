@@ -798,23 +798,3 @@
    volume = {5},
    year = {2010},
 }
-@article{Pete2000,
-   abstract = {This document describes the CRISP-DM process model and contains information about the CRISP-DM methodology, the CRISP-DM reference model, the CRISP-DM user guide, and the CRISP-DM reports, as well as an appendix with additional related information. This document and information herein are the exclusive property of the partners of the CRISP-DM consortium: NCR Systems Engineering Copenhagen (USA and Denmark), DaimlerChrysler AG (Germany), SPSS Inc. (USA), and OHRA Verzekeringen en Bank Groep B.V. (The Netherlands).},
-   author = {Chapman Pete and Clinton Julian and Kerber Randy and Khabaza Thomas and Reinartz Thomas and Shearer Colin and Rudiger Wirth},
-   journal = {CRISP-DM Consortium},
-   title = {Crisp-Dm 1.0},
-   year = {2000},
-}
-@report{,
-   author = {IBM Corporation},
-   title = {Guia do IBM SPSS Modeler CRISP-DM},
-}
-@report{Chapman2000,
-   abstract = {SPSS is a registered trademark and the other SPSS products named are trademarks of SPSS Inc. All other names are trademarks of their respective owners.},
-   author = {Pete Chapman and Julian Clinton and Randy Kerber and Thomas Khabaza and Thomas Reinartz and Colin Shearer and Rüdiger Wirth},
-   institution = {CRISP-DM Consortium},
-   month = {8},
-   publisher = {DaimlerChrysler},
-   title = {Step-by-step data mining guide},
-   year = {2000},
-}
