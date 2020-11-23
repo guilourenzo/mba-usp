@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2020-11-23T14:50:14.782Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36" etag="VgSpM9GqgXIRAX6kLvMA" version="13.10.1" type="github">
+<mxfile host="app.diagrams.net" modified="2020-11-23T14:55:21.005Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36" etag="3psAko-N18jYhpt1gtis" version="13.10.1" type="github">
   <diagram id="sJBGEoRjL_9mca14b21I" name="Page-1">
     <mxGraphModel dx="1128" dy="962" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -28,8 +28,23 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="9bnonTyiuOtjmnctV5hv-13" value="Taxa de VERDADEIRO Positivo" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;direction=north;labelPosition=center;verticalLabelPosition=middle;rotation=0;" vertex="1" parent="1">
-          <mxGeometry x="485" y="265" width="20" height="250" as="geometry" />
+        <mxCell id="9bnonTyiuOtjmnctV5hv-13" value="Taxa de VERDADEIRO Positivo" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;direction=north;labelPosition=center;verticalLabelPosition=middle;rotation=0;horizontal=0;" vertex="1" parent="1">
+          <mxGeometry x="50" y="62.5" width="20" height="195" as="geometry" />
+        </mxCell>
+        <mxCell id="9bnonTyiuOtjmnctV5hv-14" value="Taxa de VERDADEIRO Positivo" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;direction=north;labelPosition=center;verticalLabelPosition=middle;rotation=0;horizontal=0;" vertex="1" parent="1">
+          <mxGeometry x="330" y="62.5" width="20" height="195" as="geometry" />
+        </mxCell>
+        <mxCell id="9bnonTyiuOtjmnctV5hv-15" value="Taxa de VERDADEIRO Positivo" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;direction=north;labelPosition=center;verticalLabelPosition=middle;rotation=0;horizontal=0;" vertex="1" parent="1">
+          <mxGeometry x="610" y="62.5" width="20" height="195" as="geometry" />
+        </mxCell>
+        <mxCell id="9bnonTyiuOtjmnctV5hv-16" value="Taxa de FALSO Positivo" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;horizontal=1;direction=west;" vertex="1" parent="1">
+          <mxGeometry x="90" y="250" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="9bnonTyiuOtjmnctV5hv-18" value="Taxa de FALSO Positivo" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;horizontal=1;direction=west;" vertex="1" parent="1">
+          <mxGeometry x="370" y="250" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="9bnonTyiuOtjmnctV5hv-19" value="Taxa de FALSO Positivo" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;horizontal=1;direction=west;" vertex="1" parent="1">
+          <mxGeometry x="650" y="250" width="140" height="20" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
