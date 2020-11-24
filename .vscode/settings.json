@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\ProgramData\\Anaconda3\\python.exe",
+    "python.pythonPath": "/usr/bin/python3.7",
     "vsintellicode.features.python.deepLearning": "enabled",
     "jupyter.textOutputLimit": 0
 }
