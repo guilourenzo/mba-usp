@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2020-11-29T01:56:49.233Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36" etag="TEzGGzwLrYP6nGD0BMcZ" version="13.10.1" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2020-11-29T02:01:01.208Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36" etag="vS5CFF56JLVfxKBkQ8hb" version="13.10.1" type="github" pages="2">
   <diagram id="sJBGEoRjL_9mca14b21I" name="Page-1">
     <mxGraphModel dx="1038" dy="580" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -80,6 +80,12 @@
               <mxPoint x="350" y="180" />
             </Array>
           </mxGeometry>
+        </mxCell>
+        <mxCell id="7shqoDx_BSGAiuozdf-X-6" value="Taxa de VERDADEIRO Positivo" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;horizontal=0;fontSize=9;" vertex="1" parent="7shqoDx_BSGAiuozdf-X-1">
+          <mxGeometry x="290" y="165" width="30" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="7shqoDx_BSGAiuozdf-X-7" value="Taxa de FALSO Positivo" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;horizontal=1;fontSize=9;" vertex="1" parent="7shqoDx_BSGAiuozdf-X-1">
+          <mxGeometry x="360" y="320" width="120" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
