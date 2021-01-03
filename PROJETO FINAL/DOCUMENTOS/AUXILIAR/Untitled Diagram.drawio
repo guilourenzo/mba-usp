@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-01-03T19:02:25.465Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" etag="8cPn3hshn2bosnGVW5ep" version="13.10.4" type="github">
+<mxfile host="app.diagrams.net" modified="2021-01-03T19:49:14.701Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" etag="JJevDVGc2t4IwauAWBon" version="13.10.4" type="github">
   <diagram id="di-ddq-g-4reDUPYfn3K" name="Page-1">
     <mxGraphModel dx="1038" dy="580" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -14,76 +14,100 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="HnycrJeS-ZUGLE_cSRpv-3" value="&lt;i&gt;&lt;font style=&quot;font-size: 15px&quot;&gt;b&lt;/font&gt;&lt;/i&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
-          <mxGeometry x="400" y="360" width="40" height="40" as="geometry" />
+          <mxGeometry x="405" y="340" width="30" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="HnycrJeS-ZUGLE_cSRpv-4" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="HnycrJeS-ZUGLE_cSRpv-3" target="HnycrJeS-ZUGLE_cSRpv-1">
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-4" value="" style="endArrow=block;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endFill=1;" edge="1" parent="1" source="HnycrJeS-ZUGLE_cSRpv-3" target="HnycrJeS-ZUGLE_cSRpv-1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="390" y="320" as="sourcePoint" />
             <mxPoint x="440" y="270" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HnycrJeS-ZUGLE_cSRpv-5" value="" style="endArrow=classic;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;curved=1;" edge="1" parent="1" target="HnycrJeS-ZUGLE_cSRpv-1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="200" y="160" as="sourcePoint" />
-            <mxPoint x="440" y="270" as="targetPoint" />
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-28" value="" style="endArrow=block;html=1;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="240" y="160" as="sourcePoint" />
+            <mxPoint x="360" y="259.5" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HnycrJeS-ZUGLE_cSRpv-6" value="" style="endArrow=classic;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;curved=1;" edge="1" parent="1" target="HnycrJeS-ZUGLE_cSRpv-1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="200" y="360" as="sourcePoint" />
-            <mxPoint x="380" y="280" as="targetPoint" />
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-29" value="W&lt;sub&gt;1&lt;/sub&gt;" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="HnycrJeS-ZUGLE_cSRpv-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-30" value="X&lt;sub&gt;1&lt;/sub&gt;" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;" connectable="0" vertex="1" parent="HnycrJeS-ZUGLE_cSRpv-28">
+          <mxGeometry x="-1" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-31" value="" style="endArrow=none;html=1;endFill=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="240" y="200" as="sourcePoint" />
+            <mxPoint x="360" y="260" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HnycrJeS-ZUGLE_cSRpv-7" value="" style="endArrow=classic;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;curved=1;" edge="1" parent="1" target="HnycrJeS-ZUGLE_cSRpv-1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="200" y="200" as="sourcePoint" />
-            <mxPoint x="380" y="280" as="targetPoint" />
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-32" value="W&lt;sub&gt;2&lt;/sub&gt;" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="HnycrJeS-ZUGLE_cSRpv-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-33" value="X&lt;sub&gt;2&lt;/sub&gt;" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;" connectable="0" vertex="1" parent="HnycrJeS-ZUGLE_cSRpv-31">
+          <mxGeometry x="-1" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-34" value="" style="endArrow=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endFill=0;" edge="1" parent="1" target="HnycrJeS-ZUGLE_cSRpv-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="240" y="240" as="sourcePoint" />
+            <mxPoint x="370" y="270" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HnycrJeS-ZUGLE_cSRpv-8" value="" style="endArrow=classic;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;curved=1;dashed=1;" edge="1" parent="1" target="HnycrJeS-ZUGLE_cSRpv-1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="200" y="320" as="sourcePoint" />
-            <mxPoint x="380" y="280" as="targetPoint" />
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-35" value="W&lt;sub&gt;3&lt;/sub&gt;" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="HnycrJeS-ZUGLE_cSRpv-34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-36" value="X&lt;sub&gt;3&lt;/sub&gt;" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;" connectable="0" vertex="1" parent="HnycrJeS-ZUGLE_cSRpv-34">
+          <mxGeometry x="-1" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-43" value="" style="endArrow=block;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endFill=1;" edge="1" parent="1" target="HnycrJeS-ZUGLE_cSRpv-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="240" y="360" as="sourcePoint" />
+            <mxPoint x="370" y="270" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HnycrJeS-ZUGLE_cSRpv-9" value="" style="endArrow=classic;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;curved=1;dashed=1;" edge="1" parent="1" target="HnycrJeS-ZUGLE_cSRpv-1">
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-44" value="W&lt;sub&gt;n&lt;/sub&gt;" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="HnycrJeS-ZUGLE_cSRpv-43">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-45" value="X&lt;sub&gt;n&lt;/sub&gt;" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;" connectable="0" vertex="1" parent="HnycrJeS-ZUGLE_cSRpv-43">
+          <mxGeometry x="-1" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-46" value="&lt;span style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;.&amp;nbsp; &amp;nbsp;.&amp;nbsp; &amp;nbsp;.&amp;nbsp; &amp;nbsp;.&amp;nbsp; &amp;nbsp;.&amp;nbsp; &amp;nbsp;.&lt;/b&gt;&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];autosize=1;rotation=90;" vertex="1" parent="1">
+          <mxGeometry x="193" y="283" width="110" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-47" value="" style="endArrow=none;dashed=1;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="HnycrJeS-ZUGLE_cSRpv-1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="200" y="280" as="sourcePoint" />
-            <mxPoint x="380" y="280" as="targetPoint" />
+            <mxPoint x="260" y="280" as="sourcePoint" />
+            <mxPoint x="440" y="190" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HnycrJeS-ZUGLE_cSRpv-10" value="" style="endArrow=classic;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;curved=1;dashed=1;" edge="1" parent="1" target="HnycrJeS-ZUGLE_cSRpv-1">
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-48" value="" style="endArrow=none;dashed=1;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="HnycrJeS-ZUGLE_cSRpv-1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="200" y="240" as="sourcePoint" />
-            <mxPoint x="380" y="280" as="targetPoint" />
+            <mxPoint x="260" y="310" as="sourcePoint" />
+            <mxPoint x="440" y="190" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HnycrJeS-ZUGLE_cSRpv-11" value="" style="endArrow=classic;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;" edge="1" parent="1" target="HnycrJeS-ZUGLE_cSRpv-1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="200" y="260" as="sourcePoint" />
-            <mxPoint x="440" y="270" as="targetPoint" />
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-49" value="&lt;span style=&quot;font-size: 20px;&quot;&gt;Y&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;fontSize=20;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="573" y="245" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-50" value="" style="endArrow=classic;html=1;fontSize=17;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="HnycrJeS-ZUGLE_cSRpv-1" target="HnycrJeS-ZUGLE_cSRpv-49">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="500" y="220" as="sourcePoint" />
+            <mxPoint x="600" y="220" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HnycrJeS-ZUGLE_cSRpv-13" value="&lt;font size=&quot;1&quot;&gt;&lt;b style=&quot;font-size: 18px&quot;&gt;. . . . . . . . .&lt;/b&gt;&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=bottom;whiteSpace=wrap;rounded=0;labelPosition=center;verticalLabelPosition=middle;horizontal=1;rotation=90;" vertex="1" parent="1">
-          <mxGeometry x="120" y="293" width="120" height="15" as="geometry" />
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-51" value="&lt;i style=&quot;font-size: 18px;&quot;&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;Saída&lt;/font&gt;&lt;/b&gt;&lt;/i&gt;" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;fontSize=18;" connectable="0" vertex="1" parent="HnycrJeS-ZUGLE_cSRpv-50">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="HnycrJeS-ZUGLE_cSRpv-20" value="X&lt;sub&gt;1&lt;/sub&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="160" y="150" width="40" height="20" as="geometry" />
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-52" value="Entradas" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;rotation=270;fontStyle=3" vertex="1" parent="1">
+          <mxGeometry x="198" y="250" width="40" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="HnycrJeS-ZUGLE_cSRpv-21" value="X&lt;sub&gt;2&lt;/sub&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="160" y="190" width="40" height="20" as="geometry" />
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-53" value="&lt;i style=&quot;font-size: 18px;&quot;&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;Pesos&lt;/font&gt;&lt;/b&gt;&lt;/i&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="280" y="140" width="70" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="HnycrJeS-ZUGLE_cSRpv-22" value="X&lt;span style=&quot;font-size: 10px&quot;&gt;3&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="160" y="230" width="40" height="20" as="geometry" />
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-56" value="" style="shape=image;verticalLabelPosition=bottom;verticalAlign=top;imageAspect=0;image=https://upload.wikimedia.org/wikipedia/commons/e/e7/Greek_uc_sigma.svg;fontSize=15;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="380" y="245" width="30" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="HnycrJeS-ZUGLE_cSRpv-23" value="X&lt;span style=&quot;font-size: 10px&quot;&gt;4&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="160" y="350" width="40" height="20" as="geometry" />
-        </mxCell>
-        <mxCell id="HnycrJeS-ZUGLE_cSRpv-24" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;endSize=10;" edge="1" parent="1" source="HnycrJeS-ZUGLE_cSRpv-1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="390" y="250" as="sourcePoint" />
-            <mxPoint x="580" y="260" as="targetPoint" />
-          </mxGeometry>
+        <mxCell id="HnycrJeS-ZUGLE_cSRpv-57" value="" style="shape=image;verticalLabelPosition=bottom;verticalAlign=top;imageAspect=0;image=https://upload.wikimedia.org/wikipedia/commons/a/a7/Greek_lc_theta.svg;fontSize=15;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="430" y="245" width="30" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
