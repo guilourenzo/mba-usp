@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-01-04T15:00:47.836Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" etag="KhZ-L96cY9i9xdbtnH-w" version="13.10.4" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2021-01-04T15:05:07.131Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" etag="Hi34flM0623nf8kaj532" version="13.10.4" type="github" pages="2">
   <diagram id="di-ddq-g-4reDUPYfn3K" name="Neuronio">
     <mxGraphModel dx="1038" dy="523" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -113,7 +113,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="MBBhFVVPc2reDjde32ZM" name="Page-2">
-    <mxGraphModel dx="1753" dy="682" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1753" dy="615" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="addXvdbC5FpWuwhUtbPb-0" />
         <mxCell id="addXvdbC5FpWuwhUtbPb-1" parent="addXvdbC5FpWuwhUtbPb-0" />
@@ -163,55 +163,55 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="addXvdbC5FpWuwhUtbPb-19" value="Caso 1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;fillColor=#ffd09c;strokeColor=#CC6600;" vertex="1" parent="addXvdbC5FpWuwhUtbPb-1">
-          <mxGeometry x="860" y="36" width="80" height="40" as="geometry" />
+          <mxGeometry x="861" y="116" width="80" height="40" as="geometry" />
         </mxCell>
         <mxCell id="addXvdbC5FpWuwhUtbPb-20" value="Aprendizado Autodidata" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;fillColor=#ffff9b;strokeColor=#FFB570;" vertex="1" parent="addXvdbC5FpWuwhUtbPb-1">
-          <mxGeometry x="1000" y="36" width="120" height="40" as="geometry" />
+          <mxGeometry x="1001" y="116" width="120" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="addXvdbC5FpWuwhUtbPb-21" value="" style="endArrow=classic;html=1;fontSize=13;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="addXvdbC5FpWuwhUtbPb-1" source="addXvdbC5FpWuwhUtbPb-11" target="addXvdbC5FpWuwhUtbPb-19">
+        <mxCell id="addXvdbC5FpWuwhUtbPb-21" value="" style="endArrow=classic;html=1;fontSize=13;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="addXvdbC5FpWuwhUtbPb-1" source="addXvdbC5FpWuwhUtbPb-11" target="addXvdbC5FpWuwhUtbPb-19">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="630" y="-34" as="sourcePoint" />
             <mxPoint x="867" y="56" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="addXvdbC5FpWuwhUtbPb-17" value="&lt;font style=&quot;font-size: 13px&quot;&gt;Não há dados rotulados no domínio de origem&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;fillColor=#cdfffe;dashed=1;strokeColor=#3333FF;" vertex="1" parent="addXvdbC5FpWuwhUtbPb-1">
-          <mxGeometry x="670" y="76" width="170" height="40" as="geometry" />
+          <mxGeometry x="667" y="116" width="170" height="40" as="geometry" />
         </mxCell>
         <mxCell id="addXvdbC5FpWuwhUtbPb-22" value="" style="endArrow=classic;html=1;fontSize=13;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="addXvdbC5FpWuwhUtbPb-1" source="addXvdbC5FpWuwhUtbPb-19" target="addXvdbC5FpWuwhUtbPb-20">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="947" y="46" as="sourcePoint" />
-            <mxPoint x="1000" y="46" as="targetPoint" />
+            <mxPoint x="948" y="126" as="sourcePoint" />
+            <mxPoint x="1001" y="126" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="addXvdbC5FpWuwhUtbPb-24" value="" style="endArrow=classic;html=1;fontSize=13;entryX=1;entryY=0.75;entryDx=0;entryDy=0;exitX=0;exitY=0.75;exitDx=0;exitDy=0;" edge="1" parent="addXvdbC5FpWuwhUtbPb-1" source="addXvdbC5FpWuwhUtbPb-20" target="addXvdbC5FpWuwhUtbPb-19">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="990" y="70" as="sourcePoint" />
-            <mxPoint x="947" y="66" as="targetPoint" />
+            <mxPoint x="991" y="150" as="sourcePoint" />
+            <mxPoint x="948" y="146" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="addXvdbC5FpWuwhUtbPb-25" value="Caso 2" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;fillColor=#ffd09c;strokeColor=#CC6600;" vertex="1" parent="addXvdbC5FpWuwhUtbPb-1">
-          <mxGeometry x="867" y="216" width="80" height="40" as="geometry" />
+          <mxGeometry x="712" y="237" width="80" height="40" as="geometry" />
         </mxCell>
         <mxCell id="addXvdbC5FpWuwhUtbPb-26" value="Aprendizado Autodidata" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;fillColor=#ffff9b;strokeColor=#FFB570;" vertex="1" parent="addXvdbC5FpWuwhUtbPb-1">
-          <mxGeometry x="1155" y="216" width="120" height="40" as="geometry" />
+          <mxGeometry x="1000" y="237" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="addXvdbC5FpWuwhUtbPb-30" value="" style="endArrow=classic;html=1;fontSize=13;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="addXvdbC5FpWuwhUtbPb-1" source="addXvdbC5FpWuwhUtbPb-25" target="addXvdbC5FpWuwhUtbPb-26">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="978" y="216" as="sourcePoint" />
-            <mxPoint x="1255" y="106" as="targetPoint" />
+            <mxPoint x="823" y="237" as="sourcePoint" />
+            <mxPoint x="1100" y="127" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="addXvdbC5FpWuwhUtbPb-29" value="&lt;font style=&quot;font-size: 13px&quot;&gt;Tarefas alvo e origem são aprendidas simultaneamente&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;fillColor=#cdfffe;dashed=1;strokeColor=#3333FF;" vertex="1" parent="addXvdbC5FpWuwhUtbPb-1">
-          <mxGeometry x="974" y="211" width="153" height="50" as="geometry" />
+          <mxGeometry x="823.5" y="237" width="153" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="addXvdbC5FpWuwhUtbPb-31" value="" style="endArrow=classic;html=1;fontSize=13;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="addXvdbC5FpWuwhUtbPb-1" source="addXvdbC5FpWuwhUtbPb-11" target="addXvdbC5FpWuwhUtbPb-25">
+        <mxCell id="addXvdbC5FpWuwhUtbPb-31" value="" style="endArrow=classic;html=1;fontSize=13;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="addXvdbC5FpWuwhUtbPb-1" source="addXvdbC5FpWuwhUtbPb-11" target="addXvdbC5FpWuwhUtbPb-25">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="640" y="156" as="sourcePoint" />
             <mxPoint x="917" y="46" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="addXvdbC5FpWuwhUtbPb-18" value="&lt;font style=&quot;font-size: 13px&quot;&gt;Dados rotulados estão disponíveis no domínio de origem&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;fillColor=#cdfffe;dashed=1;strokeColor=#3333FF;" vertex="1" parent="addXvdbC5FpWuwhUtbPb-1">
-          <mxGeometry x="670" y="166" width="170" height="50" as="geometry" />
+          <mxGeometry x="550" y="182" width="210" height="48" as="geometry" />
         </mxCell>
         <mxCell id="addXvdbC5FpWuwhUtbPb-35" value="Adaptação de Domínio" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;fillColor=#ffff9b;strokeColor=#FFB570;" vertex="1" parent="addXvdbC5FpWuwhUtbPb-1">
           <mxGeometry x="1000" y="320" width="120" height="60" as="geometry" />
@@ -232,7 +232,7 @@
           <mxGeometry x="800" y="320" width="160" height="60" as="geometry" />
         </mxCell>
         <mxCell id="addXvdbC5FpWuwhUtbPb-38" value="Viés de Seleção de Amostras&amp;nbsp; / Mudança de Covariância" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;fillColor=#ffff9b;strokeColor=#FFB570;" vertex="1" parent="addXvdbC5FpWuwhUtbPb-1">
-          <mxGeometry x="975" y="430" width="170" height="60" as="geometry" />
+          <mxGeometry x="950" y="460" width="170" height="60" as="geometry" />
         </mxCell>
         <mxCell id="addXvdbC5FpWuwhUtbPb-40" value="" style="endArrow=classic;html=1;fontSize=13;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="addXvdbC5FpWuwhUtbPb-1" source="addXvdbC5FpWuwhUtbPb-10" target="addXvdbC5FpWuwhUtbPb-38">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -241,7 +241,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="addXvdbC5FpWuwhUtbPb-39" value="Premissa: domínio único e tarefa única" style="rounded=0;whiteSpace=wrap;html=1;fontSize=13;fillColor=#cdfffe;dashed=1;strokeColor=#3333FF;" vertex="1" parent="addXvdbC5FpWuwhUtbPb-1">
-          <mxGeometry x="800" y="400" width="160" height="50" as="geometry" />
+          <mxGeometry x="775" y="415" width="160" height="50" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
