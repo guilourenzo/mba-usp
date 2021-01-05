@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-01-04T16:09:09.591Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" etag="1Rm6I6onr0xqjEAwSmTp" version="13.10.4" type="github" pages="3">
+<mxfile host="app.diagrams.net" modified="2021-01-05T04:30:25.078Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" etag="xaBcprjdKy7txTjcC3ac" version="13.10.4" type="github" pages="4">
   <diagram id="di-ddq-g-4reDUPYfn3K" name="Figura 1">
     <mxGraphModel dx="1250" dy="580" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -323,6 +323,14 @@
         <mxCell id="y1WVorKfiSjb-7uTr9BT-54" value="Camada de Saída&lt;br&gt;(V&lt;span style=&quot;font-size: 10.8333px&quot;&gt;2&lt;/span&gt;)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;fontSize=13;fontColor=none;fontStyle=1" vertex="1" parent="y1WVorKfiSjb-7uTr9BT-1">
           <mxGeometry x="425" y="25" width="120" height="40" as="geometry" />
         </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ohp0XDWkYoJwnpkDBRMM" name="Figura 3">
+    <mxGraphModel dx="1084" dy="580" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="BOHfE6g2r1I59wkQlcx9-0" />
+        <mxCell id="BOHfE6g2r1I59wkQlcx9-1" parent="BOHfE6g2r1I59wkQlcx9-0" />
       </root>
     </mxGraphModel>
   </diagram>
